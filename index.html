@@ -1146,39 +1146,23 @@
           <h2>Contact</h2>
           <p>Pick a lane and I’ll respond faster.</p>
         </div>
-        <p style="color:var(--muted)">Form is frontend-only for now.</p>
       </div>
 
-      <div class="twoCol">
-        <div class="panel">
-          <h3>Send a message</h3>
-          <div style="display:grid;gap:10px;margin-top:10px">
-            <input class="input" id="name" placeholder="Name" />
-            <input class="input" id="email" placeholder="Email" />
-            <select class="input" id="lane">
-              <option>Investor / Funding</option>
-              <option>Partnership / Enterprise</option>
-              <option>Engineering / Hiring</option>
-              <option>Press / Speaking</option>
-              <option>Other</option>
-            </select>
-            <textarea class="input" id="msg" rows="5" placeholder="What do you want to build together?"></textarea>
-            <button class="btn btnAccent" id="sendBtn">Create email draft</button>
-            <div id="draft" style="color:var(--muted);font-size:13px;line-height:1.55"></div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>Quick links</h3>
-          <p>Swap these with your real links.</p>
-          <div class="hr"></div>
-          <p><b>GitHub:</b> <a class="mutedLink" href="#" onclick="toast('Add your GitHub link in the HTML');return false;">github.com/rafyblu</a></p>
-          <p><b>LinkedIn:</b> <a class="mutedLink" href="#" onclick="toast('Add your LinkedIn link in the HTML');return false;">linkedin.com/in/rafyblu</a></p>
-          <p><b>Email:</b> <a class="mutedLink" href="#" onclick="toast('Add your email in the HTML');return false;">rafy@yourdomain.com</a></p>
-          <div class="hr"></div>
-          <p style="color:var(--muted);font-size:13px">
-            Hosting: GitHub Pages (free), Cloudflare Pages (free), or Netlify (free).
-          </p>
+      <div class="panel" style="max-width:600px">
+        <h3>Send a message</h3>
+        <div style="display:grid;gap:10px;margin-top:10px">
+          <input class="input" id="name" placeholder="Name" required />
+          <input class="input" id="email" type="email" placeholder="Email" required />
+          <select class="input" id="lane">
+            <option>Investor / Funding</option>
+            <option>Partnership / Enterprise</option>
+            <option>Engineering / Hiring</option>
+            <option>Press / Speaking</option>
+            <option>Other</option>
+          </select>
+          <textarea class="input" id="msg" rows="5" placeholder="What do you want to build together?" required></textarea>
+          <button class="btn btnAccent" id="sendBtn">Send Email</button>
+          <div id="draft" style="color:var(--muted);font-size:13px;line-height:1.55"></div>
         </div>
       </div>
     </section>
@@ -1646,40 +1630,53 @@
 
 
     // ---------------------------
-    // Contact: create a mailto draft
+    // Contact: send email
     // ---------------------------
-    document.getElementById("sendBtn").onclick = ()=>{
+    document.getElementById("sendBtn").onclick = (e)=>{
+      e.preventDefault();
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const lane = document.getElementById("lane").value;
       const msg = document.getElementById("msg").value.trim();
       const draft = document.getElementById("draft");
 
-      const subject = encodeURIComponent(`[Rafy Blu] ${lane} — ${name || "New message"}`);
-      const bodyText = `Hi Rafy,\n\n${msg || "(write your message here)"}\n\n— ${name || "Your name"}\n${email ? email : ""}`;
+      // Validate required fields
+      if (!name || !email || !msg) {
+        toast("Please fill in all required fields");
+        draft.innerHTML = '<div style="margin-top:10px;color:var(--yellow)">Please fill in all required fields.</div>';
+        return;
+      }
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        toast("Please enter a valid email address");
+        draft.innerHTML = '<div style="margin-top:10px;color:var(--yellow)">Please enter a valid email address.</div>';
+        return;
+      }
+
+      const subject = encodeURIComponent(`[Rafy Blu] ${lane} — ${name}`);
+      const bodyText = `Hi Rafy,\n\n${msg}\n\n— ${name}\n${email}`;
       const body = encodeURIComponent(bodyText);
 
-      draft.innerHTML = `
-        <div style="margin-top:10px">
-          <div class="k">DRAFT</div>
-          <div class="v">Click to open your email app with a prefilled message.</div>
-          <div class="modalActions" style="margin-top:10px">
-            <a class="btn btnAccent" href="mailto:rafy@yourdomain.com?subject=${subject}&body=${body}" data-email-draft>Open email draft</a>
-            <button class="btn" data-copy-message>Copy message</button>
-          </div>
-        </div>
-      `;
+      // Create mailto link
+      const mailtoLink = `mailto:BlupreservaIndustries@gmail.com?subject=${subject}&body=${body}`;
       
-      // Attach event listeners safely
-      draft.querySelector('[data-email-draft]')?.addEventListener('click', (e) => {
-        toast('Replace rafy@yourdomain.com with your real email');
-      });
+      // Open email client
+      window.location.href = mailtoLink;
       
-      draft.querySelector('[data-copy-message]')?.addEventListener('click', () => {
-        navigator.clipboard?.writeText(bodyText).then(() => toast('Copied message'));
-      });
+      // Show success message
+      draft.innerHTML = '<div style="margin-top:10px;color:var(--green)">Opening your email client...</div>';
+      toast("Opening email client");
       
-      toast("Draft ready");
+      // Clear form after a delay
+      setTimeout(() => {
+        document.getElementById("name").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("msg").value = "";
+        document.getElementById("lane").selectedIndex = 0;
+        draft.innerHTML = "";
+      }, 2000);
     };
 
     // ---------------------------
