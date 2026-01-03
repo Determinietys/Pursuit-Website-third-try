@@ -1173,12 +1173,12 @@
       </div>
       <div class="brand">
         <a class="brandContent" href="#top" aria-label="Rafy Blu home">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <strong>Rafy Blu</strong><br/>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>Rafy Blu</strong><br/>
             <span style="color:var(--muted);font-size:12px">Builder's Lab</span>
-          </div>
-        </a>
+        </div>
+      </a>
       </div>
       <div class="brandTicker" id="stockTicker" aria-label="Stock and crypto prices" style="display:flex;">
         <div class="tickerLoading">Loading...</div>
@@ -1220,15 +1220,15 @@
             <span class="matrixChar">0</span>
             <span class="matrixChar">1</span>
             <span class="matrixChar">0</span>
-          </div>
-          
+        </div>
+
           <!-- Neural Network -->
           <div class="neuralNetwork">
             <span class="neuralText">NEURAL</span>
             <span class="neuralText">NETWORK</span>
             <span class="neuralText">AI</span>
             <span class="neuralText">ML</span>
-          </div>
+        </div>
           
           <!-- Space Exploration -->
           <div class="spaceExploration">
@@ -1236,8 +1236,8 @@
             <span class="spaceText">EXPLORATION</span>
             <span class="spaceText">ROCKET</span>
             <span class="spaceText">MARS</span>
-          </div>
-          
+      </div>
+
           <!-- Electric Vehicles -->
           <div class="electricVehicles">
             <span class="evText">EV</span>
@@ -1245,9 +1245,9 @@
             <span class="evText">VEHICLE</span>
             <span class="evText">BATTERY</span>
           </div>
+          </div>
         </div>
-      </div>
-      
+
       <div class="card heroSide">
         <div class="miniTitle">Free Courses</div>
         <div class="courseList">
@@ -1324,15 +1324,15 @@
               <p style="margin:6px 0 0;color:var(--muted);font-size:12.5px">
                 Exploring the potential and challenges of AI's impact on our future.
               </p>
-            </div>
+          </div>
             <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
               <p style="margin:0;font-weight:600;color:var(--text)">
                 How To Think About AI: A Guide For The Perplexed
               </p>
               <p style="margin:6px 0 0;color:var(--muted);font-size:12.5px">
                 By Susskind, Richard • Hardback
-              </p>
-            </div>
+          </p>
+        </div>
             <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
               <p style="margin:0;font-weight:600;color:var(--text)">
                 Outwitting the Devil: The Secrets to Freedom and Success
@@ -1340,16 +1340,16 @@
               <p style="margin:6px 0 0;color:var(--muted);font-size:12.5px">
                 By Napoleon Hill • Personal development and success principles
               </p>
-            </div>
           </div>
         </div>
+      </div>
 
         <div class="panel">
           <h3>📰 Top Newsletters</h3>
           <div id="newsletters" style="display:grid;gap:10px;margin-top:10px">
             <div class="tickerLoading">Loading newsletters...</div>
-          </div>
         </div>
+      </div>
       </div>
     </section>
 
@@ -1362,26 +1362,27 @@
       </div>
 
       <div class="panel" style="max-width:75%">
-        <h3>Send a message</h3>
-        <div style="display:grid;gap:10px;margin-top:10px">
+          <h3>Send a message</h3>
+          <div style="display:grid;gap:10px;margin-top:10px">
           <input class="input" id="name" placeholder="Name" required />
           <input class="input" id="email" type="email" placeholder="Email" required />
-          <select class="input" id="lane">
-            <option>Investor / Funding</option>
-            <option>Partnership / Enterprise</option>
-            <option>Engineering / Hiring</option>
-            <option>Press / Speaking</option>
-            <option>Other</option>
-          </select>
+            <select class="input" id="lane">
+              <option>Investor / Funding</option>
+              <option>Partnership / Enterprise</option>
+              <option>Engineering / Hiring</option>
+              <option>Press / Speaking</option>
+              <option>Other</option>
+            </select>
           <textarea class="input" id="msg" rows="5" placeholder="What do you want to build together?" required></textarea>
           <button class="btn btnAccent" id="sendBtn">Send Email</button>
-          <div id="draft" style="color:var(--muted);font-size:13px;line-height:1.55"></div>
+            <div id="draft" style="color:var(--muted);font-size:13px;line-height:1.55"></div>
         </div>
       </div>
     </section>
 
     <div class="footer">
       <div>© <span id="year"></span> Rafy Blu for BluPreserva Industries</div>
+      <div>#WhatsThePrompt?</div>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
       </div>
     </div>
@@ -1456,18 +1457,6 @@
         whatNow: "Prototype lessons, audio-first navigation, and configurable daily learning routines.",
         next: "Add auth + user profiles, integrate pronunciation scoring provider, add spaced repetition + assessments.",
         links: [{label:"Demo", url:"#"}, {label:"Repo", url:"#"}]
-      },
-      {
-        id: "determiniety",
-        name: "Determiniety",
-        tagline: "Marketplace + community for people with disabilities, caregivers, and vendors.",
-        category: "Marketplace",
-        status: "Beta",
-        tech: ["Multi-tenant", "Payments", "Messaging", "Accessibility"],
-        why: "Reduce friction for care, products, and services by connecting the right people and providers faster.",
-        whatNow: "Core marketplace flows, profiles, listings, and vendor tiers (scaffolded).",
-        next: "Institution workflows, trust layers, deeper analytics, and smoother onboarding.",
-        links: [{label:"Overview", url:"#"}]
       },
       {
         id: "smartsort",
@@ -2272,8 +2261,8 @@
             const article = data.articles[0];
             headlineText.textContent = article.title || 'Latest news';
             headlineLink.href = article.url || '#';
-            return;
-          }
+        return;
+      }
         }
       } catch (error) {
         console.warn('News API failed, using fallback');
@@ -2327,8 +2316,8 @@
                   ? title.substring(0, maxLength) + '...' 
                   : title;
                 headlineLink.href = link;
-                return;
-              }
+        return;
+      }
             }
           }
         }
@@ -2493,8 +2482,8 @@
                  style="display:inline-block;margin-top:8px;font-size:11px;color:var(--green);text-decoration:none">
                 Subscribe →
               </a>
-            </div>
-          `;
+        </div>
+      `;
         });
         newslettersEl.innerHTML = html;
       }
