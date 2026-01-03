@@ -2243,8 +2243,17 @@
       setTimeout(initAll, 0);
     }
     
-    // Update ticker every 60 seconds
-    setInterval(updateTicker, 60000);
+    // Update ticker every 30 minutes (1800000ms = 30 * 60 * 1000)
+    const TICKER_UPDATE_INTERVAL = 1800000; // 30 minutes
+    setInterval(updateTicker, TICKER_UPDATE_INTERVAL);
+    
+    // Also update on page visibility change (when user returns to tab)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        // Refresh ticker when user returns to the page
+        updateTicker();
+      }
+    });
 
     // ---------------------------
     // Init
