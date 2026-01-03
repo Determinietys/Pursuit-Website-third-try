@@ -1,0 +1,1578 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rafy Blu — Builder’s Lab</title>
+  <meta name="description" content="Rafy Blu — interactive portfolio and project lab." />
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#0f1726;
+      --panel2:#101c31;
+      --text:#e8eefc;
+      --muted:#a9b6d6;
+      --line:rgba(232,238,252,.12);
+      --accent:#7c5cff;
+      --accent2:#26d6a1;
+      --warn:#ffcf5c;
+      --green:#26d6a1;
+      --green-light:#4de8b8;
+      --green-dark:#1fb88a;
+      --green-glow:rgba(38,214,161,.25);
+      --yellow:#ffcf5c;
+      --yellow-light:#ffd97a;
+      --yellow-dark:#e6b84d;
+      --yellow-glow:rgba(255,207,92,.25);
+      --shadow: 0 18px 70px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 22px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --touch-target: 44px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1100px 700px at 15% 10%, rgba(124,92,255,.20), transparent 55%),
+        radial-gradient(900px 600px at 85% 25%, rgba(38,214,161,.14), transparent 55%),
+        radial-gradient(900px 800px at 55% 95%, rgba(255,207,92,.10), transparent 60%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    .wrap{max-width:1150px;margin:0 auto;padding:26px 18px 60px}
+    @media (max-width: 640px){
+      .wrap{padding:20px 14px 40px}
+    }
+    .nav{
+      position:sticky;top:0;z-index:9;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,15,23,.92), rgba(11,15,23,.68));
+      border-bottom:1px solid var(--line);
+    }
+    .navInner{max-width:1150px;margin:0 auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    @media (max-width: 640px){
+      .navInner{padding:12px 14px;gap:8px}
+    }
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .logo{
+      width:34px;height:34px;border-radius:12px;
+      background: radial-gradient(circle at 30% 30%, rgba(124,92,255,.95), rgba(38,214,161,.55));
+      box-shadow: 0 10px 30px rgba(124,92,255,.20);
+      border:1px solid rgba(232,238,252,.18);
+    }
+    .brand strong{letter-spacing:.3px}
+    @media (max-width: 640px){
+      .brand strong{font-size:14px}
+      .brand span{font-size:11px}
+    }
+    .brandQuote{
+      display:block;
+      margin-top:4px;
+      font-size:11px;
+      line-height:1.3;
+      color:rgba(38,214,161,.85);
+      font-style:italic;
+      max-width:280px;
+      transition:color .3s ease;
+    }
+    @media (max-width: 640px){
+      .brandQuote{font-size:10px;max-width:200px;margin-top:3px}
+    }
+    @media (max-width: 480px){
+      .brandQuote{display:none}
+    }
+    .brandQuote:hover{
+      color:var(--green);
+    }
+    .pillRow{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    @media (max-width: 640px){
+      .pillRow{gap:6px}
+    }
+    .pill{
+      padding:9px 12px;border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(15,23,38,.65);
+      text-decoration:none;
+      font-size:13px;
+      color:var(--muted);
+      transition:.15s ease;
+      cursor:pointer;
+      min-height:var(--touch-target);
+      display:inline-flex;align-items:center;
+    }
+    @media (max-width: 640px){
+      .pill{padding:10px 14px;font-size:12px;min-height:40px}
+    }
+    .pill:hover{transform:translateY(-1px);border-color:rgba(232,238,252,.22);color:var(--text)}
+    .pill:active{transform:translateY(0)}
+    .pill.primary{
+      background: linear-gradient(135deg, rgba(124,92,255,.22), rgba(38,214,161,.20));
+      color:var(--text);
+      border-color: rgba(38,214,161,.40);
+      box-shadow: 0 0 12px var(--green-glow);
+    }
+
+    .hero{
+      padding:34px 0 10px;
+      display:grid;grid-template-columns: 1.2fr .8fr;
+      gap:18px;align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr;padding:24px 0 10px}
+    }
+    @media (max-width: 640px){
+      .hero{padding:20px 0 8px;gap:14px}
+    }
+    .card{
+      background: rgba(15,23,38,.72);
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+    }
+    .heroMain{padding:26px 22px;position:relative;overflow:hidden}
+    @media (max-width: 640px){
+      .heroMain{padding:20px 16px}
+    }
+    .heroMain:before{
+      content:"";
+      position:absolute;inset:-2px;
+      background: radial-gradient(500px 180px at 20% 5%, rgba(124,92,255,.22), transparent 70%),
+                  radial-gradient(500px 180px at 80% 25%, rgba(38,214,161,.25), transparent 70%),
+                  radial-gradient(400px 150px at 50% 50%, rgba(255,207,92,.12), transparent 65%);
+      opacity:.9;pointer-events:none;
+    }
+    .heroMain > *{position:relative}
+    h1{margin:0;font-size:42px;line-height:1.08;letter-spacing:-.6px}
+    @media (max-width: 640px){h1{font-size:32px;line-height:1.1;letter-spacing:-.4px}}
+    @media (max-width: 400px){h1{font-size:28px}}
+    .sub{margin:12px 0 0;color:var(--muted);font-size:15.5px;line-height:1.55;max-width:62ch}
+    @media (max-width: 640px){
+      .sub{font-size:14px;line-height:1.5;margin-top:10px}
+    }
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+    @media (max-width: 640px){
+      .ctaRow{gap:8px;margin-top:14px}
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(16,28,49,.62);
+      padding:11px 14px;border-radius:14px;
+      color:var(--text);font-weight:600;
+      cursor:pointer;
+      transition:.15s ease;
+      text-decoration:none;
+      display:inline-flex;align-items:center;gap:10px;
+      min-height:var(--touch-target);
+      font-size:14px;
+      -webkit-tap-highlight-color:transparent;
+    }
+    @media (max-width: 640px){
+      .btn{padding:12px 16px;min-height:44px;font-size:13.5px;width:100%;justify-content:center}
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(232,238,252,.22)}
+    .btn:active{transform:translateY(0)}
+    .btnAccent{
+      background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(38,214,161,.25));
+      border-color: rgba(38,214,161,.45);
+      box-shadow: 0 0 16px var(--green-glow);
+    }
+    .btnAccent:hover{
+      box-shadow: 0 0 20px var(--green-glow);
+      border-color: rgba(38,214,161,.55);
+    }
+    .btnSoft{
+      background: rgba(124,92,255,.14);
+      border-color: rgba(124,92,255,.32);
+    }
+    .btnDanger{
+      background: rgba(255,207,92,.15);
+      border-color: rgba(255,207,92,.40);
+      color:var(--text);
+      box-shadow: 0 0 12px var(--yellow-glow);
+    }
+    .btnDanger:hover{
+      background: rgba(255,207,92,.20);
+      box-shadow: 0 0 16px var(--yellow-glow);
+    }
+    .kbd{
+      font-family:var(--mono);
+      font-size:12px;color:rgba(232,238,252,.85);
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(232,238,252,.18);
+      padding:3px 7px;border-radius:9px;
+    }
+
+    .heroSide{padding:22px}
+    @media (max-width: 640px){
+      .heroSide{padding:18px 16px}
+    }
+    .miniTitle{font-size:12px;letter-spacing:.18em;color:rgba(232,238,252,.75);text-transform:uppercase}
+    @media (max-width: 640px){
+      .miniTitle{font-size:11px}
+    }
+    .factGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    @media (max-width: 640px){
+      .factGrid{grid-template-columns:1fr;gap:8px}
+    }
+    .fact{
+      background: rgba(16,28,49,.55);
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:12px 12px;
+      min-height:64px;
+      transition:.15s ease;
+    }
+    .fact:hover{
+      border-color:rgba(38,214,161,.30);
+      background: rgba(16,28,49,.65);
+    }
+    .fact:nth-child(odd){
+      border-left:3px solid var(--green);
+    }
+    .fact:nth-child(even){
+      border-left:3px solid var(--yellow);
+    }
+    .fact b{display:block;font-size:14px}
+    @media (max-width: 640px){
+      .fact b{font-size:13px}
+    }
+    .fact span{display:block;margin-top:6px;color:var(--muted);font-size:12.5px;line-height:1.35}
+    @media (max-width: 640px){
+      .fact span{font-size:12px;margin-top:4px}
+    }
+    .badgeRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    @media (max-width: 640px){
+      .badgeRow{gap:6px;margin-top:12px}
+    }
+    .badge{
+      font-family:var(--mono);
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px dashed rgba(232,238,252,.22);
+      color:rgba(232,238,252,.85);
+      background: rgba(11,15,23,.35);
+    }
+    @media (max-width: 640px){
+      .badge{font-size:11px;padding:6px 9px}
+    }
+    .badge:nth-child(1){
+      border-color:rgba(38,214,161,.35);
+      background:rgba(38,214,161,.08);
+    }
+    .badge:nth-child(2){
+      border-color:rgba(255,207,92,.35);
+      background:rgba(255,207,92,.08);
+    }
+
+    .section{margin-top:22px}
+    @media (max-width: 640px){
+      .section{margin-top:18px}
+    }
+    .sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 0 10px}
+    @media (max-width: 640px){
+      .sectionHead{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:12px}
+    }
+    .sectionHead h2{margin:0;font-size:18px;letter-spacing:-.2px}
+    @media (max-width: 640px){
+      .sectionHead h2{font-size:16px}
+    }
+    .sectionHead p{margin:0;color:var(--muted);font-size:13.5px}
+    @media (max-width: 640px){
+      .sectionHead p{font-size:12.5px}
+    }
+
+    .toolbar{
+      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+      padding:12px;
+      border-radius: var(--radius);
+      background: rgba(15,23,38,.65);
+      border:1px solid var(--line);
+    }
+    @media (max-width: 640px){
+      .toolbar{padding:10px;gap:8px}
+    }
+    .input{
+      flex:1;
+      min-width:220px;
+      padding:11px 12px;
+      border-radius: 14px;
+      border:1px solid rgba(232,238,252,.16);
+      background: rgba(16,28,49,.45);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+      transition:.15s ease;
+    }
+    @media (max-width: 640px){
+      .input{min-width:100%;padding:12px 14px;font-size:16px;min-height:44px}
+    }
+    .input:focus{
+      border-color:rgba(38,214,161,.40);
+      box-shadow: 0 0 0 3px var(--green-glow);
+    }
+    .input::placeholder{color:rgba(169,182,214,.75)}
+    select.input{min-width:170px}
+    @media (max-width: 640px){
+      select.input{min-width:100%}
+    }
+    textarea.input{min-width:100%}
+    @media (max-width: 640px){
+      textarea.input{min-height:100px}
+    }
+    .chipRow{display:flex;gap:8px;flex-wrap:wrap}
+    @media (max-width: 640px){
+      .chipRow{gap:6px}
+    }
+    .chip{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(16,28,49,.45);
+      color:rgba(232,238,252,.9);
+      font-size:13px;
+      cursor:pointer;
+      transition:.12s ease;
+      user-select:none;
+      min-height:36px;
+      display:inline-flex;align-items:center;
+      -webkit-tap-highlight-color:transparent;
+    }
+    @media (max-width: 640px){
+      .chip{padding:10px 12px;min-height:40px;font-size:12.5px}
+    }
+    .chip.active{
+      border-color: rgba(38,214,161,.55);
+      background: rgba(38,214,161,.20);
+      box-shadow: 0 0 8px var(--green-glow);
+    }
+    .chip:active{transform:scale(0.98)}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 980px){.grid{grid-template-columns: repeat(2, 1fr)}}
+    @media (max-width: 640px){.grid{grid-template-columns: 1fr}}
+    .proj{
+      padding:16px 16px 14px;
+      border-radius: var(--radius2);
+      border:1px solid var(--line);
+      background: rgba(15,23,38,.62);
+      cursor:pointer;
+      transition:.15s ease;
+      position:relative;
+      overflow:hidden;
+      -webkit-tap-highlight-color:transparent;
+    }
+    @media (max-width: 640px){
+      .proj{padding:14px;border-radius:16px}
+    }
+    .proj:hover{transform:translateY(-2px);border-color:rgba(232,238,252,.22)}
+    @media (max-width: 640px){
+      .proj:active{transform:translateY(0)}
+    }
+    .proj:before{
+      content:"";
+      position:absolute;inset:-2px;
+      background: radial-gradient(380px 140px at 12% 0%, rgba(124,92,255,.15), transparent 62%),
+                  radial-gradient(380px 140px at 86% 15%, rgba(38,214,161,.18), transparent 62%),
+                  radial-gradient(300px 120px at 50% 50%, rgba(255,207,92,.10), transparent 60%);
+      opacity:.9;pointer-events:none;
+    }
+    .proj > *{position:relative}
+    .tagRow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .tag{
+      font-size:12px;
+      padding:6px 9px;border-radius:999px;
+      border:1px solid rgba(232,238,252,.14);
+      color:rgba(232,238,252,.85);
+      background: rgba(0,0,0,.20);
+      font-family:var(--mono);
+    }
+    .tag.status{
+      border-color: rgba(255,207,92,.45); 
+      background: rgba(255,207,92,.12);
+      box-shadow: 0 0 6px var(--yellow-glow);
+    }
+    .tag.kind{
+      border-color: rgba(38,214,161,.45); 
+      background: rgba(38,214,161,.12);
+      box-shadow: 0 0 6px var(--green-glow);
+    }
+    .proj h3{margin:0;font-size:16px}
+    @media (max-width: 640px){
+      .proj h3{font-size:15px}
+    }
+    .proj p{margin:8px 0 0;color:var(--muted);font-size:13.5px;line-height:1.45}
+    @media (max-width: 640px){
+      .proj p{font-size:13px;margin-top:6px}
+    }
+    .proj .meta{
+      margin-top:10px;
+      display:flex;align-items:center;justify-content:space-between;
+      color:rgba(232,238,252,.80);
+      font-size:12.5px;
+      gap:10px;
+    }
+    .projActions{
+      margin-top:12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    @media (max-width: 640px){
+      .projActions{gap:8px;margin-top:10px}
+      .projActions .btn{flex:1;min-width:calc(50% - 4px)}
+    }
+
+    .twoCol{
+      display:grid;grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+    @media (max-width: 900px){.twoCol{grid-template-columns:1fr}}
+    .panel{padding:16px;border-radius:var(--radius2);border:1px solid var(--line);background: rgba(15,23,38,.62)}
+    @media (max-width: 640px){
+      .panel{padding:14px;border-radius:16px}
+    }
+    .panel h3{margin:0 0 8px;font-size:15px}
+    @media (max-width: 640px){
+      .panel h3{font-size:14px;margin-bottom:6px}
+    }
+    .panel p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5}
+    @media (max-width: 640px){
+      .panel p{font-size:13px;line-height:1.45}
+    }
+
+    .timeline{margin-top:10px;display:grid;gap:10px}
+    .entry{
+      border:1px solid var(--line);
+      background: rgba(16,28,49,.44);
+      border-radius: 16px;
+      padding:12px;
+      display:flex;gap:12px;align-items:flex-start;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: var(--green);
+      box-shadow:0 0 0 6px var(--green-glow);
+      margin-top:5px;flex:0 0 auto;
+    }
+    .entry:nth-child(even) .dot{
+      background: var(--yellow);
+      box-shadow:0 0 0 6px var(--yellow-glow);
+    }
+    .entry b{display:block}
+    .entry small{display:block;color:var(--muted);margin-top:6px}
+
+    .footer{margin-top:30px;color:rgba(169,182,214,.8);font-size:13px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    @media (max-width: 640px){
+      .footer{margin-top:24px;font-size:12px;flex-direction:column;gap:8px}
+    }
+    .mutedLink{color:rgba(169,182,214,.9);transition:.15s ease}
+    .mutedLink:hover{color:var(--green)}
+    .hr{height:1px;background:var(--line);margin:16px 0}
+    @media (max-width: 640px){
+      .hr{margin:12px 0}
+    }
+    
+    /* Mobile-specific improvements */
+    @media (max-width: 640px){
+      *{touch-action:manipulation}
+      button, a, .chip, .pill{cursor:pointer}
+      body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    }
+
+    /* Modal */
+    .modalBackdrop{
+      position:fixed;inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;justify-content:center;
+      padding:18px;
+      z-index:30;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    @media (max-width: 640px){
+      .modalBackdrop{padding:12px}
+    }
+    .modal{
+      width:min(860px, 100%);
+      border-radius: 22px;
+      border:1px solid rgba(232,238,252,.16);
+      background: rgba(15,23,38,.92);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      max-height:90vh;
+      display:flex;flex-direction:column;
+    }
+    @media (max-width: 640px){
+      .modal{border-radius:16px;max-height:95vh}
+    }
+    .modalTop{
+      padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      border-bottom:1px solid var(--line);
+      background: rgba(16,28,49,.55);
+      flex-shrink:0;
+    }
+    @media (max-width: 640px){
+      .modalTop{padding:12px 14px}
+    }
+    .modalTitle{display:flex;flex-direction:column;gap:2px}
+    .modalTitle b{font-size:15px}
+    .modalTitle span{font-size:12.5px;color:var(--muted)}
+    .iconBtn{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      border-radius: 14px;
+      padding:8px 10px;
+      cursor:pointer;
+      min-width:var(--touch-target);
+      min-height:var(--touch-target);
+      display:inline-flex;align-items:center;justify-content:center;
+      -webkit-tap-highlight-color:transparent;
+    }
+    @media (max-width: 640px){
+      .iconBtn{padding:10px 12px;min-width:44px;min-height:44px}
+    }
+    .modalBody{
+      padding:16px;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    @media (max-width: 640px){
+      .modalBody{padding:14px}
+    }
+    .kv{display:grid;grid-template-columns: 120px 1fr;gap:10px;margin-top:10px}
+    @media (max-width: 560px){.kv{grid-template-columns:1fr}}
+    .k{color:rgba(232,238,252,.85);font-family:var(--mono);font-size:12px}
+    .v{color:var(--muted);font-size:13.5px;line-height:1.5}
+    .modalActions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .toast{
+      position:fixed;left:50%;transform:translateX(-50%);
+      bottom:16px;
+      background: rgba(16,28,49,.95);
+      border:1px solid rgba(38,214,161,.30);
+      color: rgba(232,238,252,.92);
+      padding:12px 16px;border-radius: 14px;
+      box-shadow: var(--shadow), 0 0 20px var(--green-glow);
+      display:none;
+      z-index:40;
+      font-size:13px;
+      max-width:min(760px, calc(100vw - 32px));
+      text-align:center;
+    }
+    @media (max-width: 640px){
+      .toast{bottom:12px;padding:10px 14px;font-size:12.5px;max-width:calc(100vw - 24px)}
+    }
+
+    /* Follow Updates UI */
+    .mini{
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+    .followBox{
+      margin-top:14px;
+      padding:12px;
+      border-radius: 16px;
+      border:1px solid rgba(232,238,252,.14);
+      background: rgba(16,28,49,.44);
+    }
+    .inlineRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .inlineRow .input{min-width:220px;flex:1}
+    .checkRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .check{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid rgba(232,238,252,.14);
+      background: rgba(0,0,0,.18);
+      padding:8px 10px;
+      border-radius:999px;
+      cursor:pointer;
+      user-select:none;
+      font-size:13px;
+      color:rgba(232,238,252,.88);
+      min-height:40px;
+      transition:.12s ease;
+      -webkit-tap-highlight-color:transparent;
+    }
+    @media (max-width: 640px){
+      .check{padding:10px 12px;min-height:44px;font-size:12.5px}
+    }
+    .check:hover{
+      border-color:rgba(38,214,161,.30);
+      background:rgba(38,214,161,.08);
+    }
+    .check input{accent-color: var(--green)}
+    .check input:checked + span{
+      color:var(--green);
+      font-weight:500;
+    }
+    .check:has(input:checked){
+      border-color:rgba(38,214,161,.45);
+      background:rgba(38,214,161,.15);
+      box-shadow: 0 0 8px var(--green-glow);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="navInner">
+      <a class="brand" href="#top" aria-label="Rafy Blu home">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>Rafy Blu</strong><br/>
+          <span style="color:var(--muted);font-size:12px">Builder's Lab</span>
+          <span class="brandQuote" id="dailyQuote"></span>
+        </div>
+      </a>
+      <div class="pillRow">
+        <a class="pill" href="#projects">Projects</a>
+        <a class="pill" href="#buildlog">Build Log</a>
+        <a class="pill" href="#ask">Ask Rafy</a>
+        <a class="pill primary" href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" id="top">
+    <section class="hero">
+      <div class="card heroMain">
+        <h1>Hi, I’m Rafy Blu.</h1>
+        <p class="sub">
+          I build ambitious products across <b>AI</b>, <b>marketplaces</b>, and <b>smart infrastructure</b>.
+          This site is interactive on purpose — explore what I’m building, how it works, and follow updates as I ship.
+        </p>
+
+        <div class="ctaRow">
+          <a class="btn btnAccent" href="#projects">Explore Projects <span class="kbd">⌘K</span></a>
+          <button class="btn" id="randomProjectBtn">Surprise me</button>
+          <a class="btn" href="#contact">Work with me</a>
+        </div>
+
+        <div class="hr"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13px">
+          <span>Tip:</span>
+          <span class="kbd">/</span> search projects,
+          <span class="kbd">Esc</span> close modal,
+          <span class="kbd">Enter</span> open top result
+        </div>
+      </div>
+
+      <div class="card heroSide">
+        <div class="miniTitle">Currently building</div>
+        <div class="factGrid">
+          <div class="fact">
+            <b>AI language learning</b>
+            <span>Pronunciation + real tutoring UX</span>
+          </div>
+          <div class="fact">
+            <b>SmartSort</b>
+            <span>Circular economy & sorting intelligence</span>
+          </div>
+          <div class="fact">
+            <b>Determiniety</b>
+            <span>Marketplace + community for disability ecosystem</span>
+          </div>
+          <div class="fact">
+            <b>Smart facilities</b>
+            <span>Massive integrated “mega complex” concepts</span>
+          </div>
+        </div>
+
+        <div class="badgeRow" aria-label="Tech vibes">
+          <span class="badge">AI • UX • Systems</span>
+          <span class="badge">Marketplace Ops</span>
+          <span class="badge">Automation-first</span>
+          <span class="badge">Impact + scale</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <div class="sectionHead">
+        <div>
+          <h2>Projects</h2>
+          <p>Filter + search, click a project to open the deep dive, then follow updates.</p>
+        </div>
+        <p><span class="kbd">/</span> focuses search • <span class="kbd">Enter</span> opens first match</p>
+      </div>
+
+      <div class="toolbar">
+        <input class="input" id="search" placeholder="Search projects… (try: AI, marketplace, climate)" autocomplete="off"/>
+        <select class="input" id="status">
+          <option value="all">Status: All</option>
+          <option value="Idea">Idea</option>
+          <option value="MVP">MVP</option>
+          <option value="Beta">Beta</option>
+          <option value="Live">Live</option>
+          <option value="Raising">Raising</option>
+        </select>
+        <div class="chipRow" id="chips"></div>
+      </div>
+
+      <div class="grid" id="grid" aria-live="polite"></div>
+
+      <div class="panel" style="margin-top:12px">
+        <h3>Newsletter list (local for now)</h3>
+        <p>
+          Subscribers are saved in your browser only. Use <b>Export CSV</b> to download the list.
+          Later, we can connect this to a real database/service.
+        </p>
+        <div class="inlineRow" style="margin-top:10px">
+          <button class="btn" id="exportCsvBtn">Export CSV</button>
+          <button class="btn btnDanger" id="clearSubsBtn" title="Clears local subscribers list">Clear local list</button>
+          <span class="mini" id="subCount">0 subscribers</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ask">
+      <div class="sectionHead">
+        <div>
+          <h2>Ask Rafy</h2>
+          <p>Type what you’re interested in — I’ll route you to the best project to start with.</p>
+        </div>
+        <p style="color:var(--muted)">No backend required (yet).</p>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3>Your question</h3>
+          <p style="margin-bottom:10px">Examples: “AI tutor”, “disability marketplace”, “smart facility”, “circular economy”.</p>
+          <input class="input" id="askInput" placeholder="What do you want to explore?" />
+          <div class="modalActions">
+            <button class="btn btnAccent" id="askBtn">Route me</button>
+            <button class="btn" id="saveQueryBtn">Save my query</button>
+          </div>
+          <p style="margin-top:12px;color:var(--muted);font-size:12.5px">
+            Saved queries are stored in your browser (localStorage). Later you can wire this to a real database.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Suggested starting point</h3>
+          <div id="askResult" style="margin-top:10px;color:var(--muted);font-size:13.5px;line-height:1.55">
+            Ask something above to get a tailored recommendation.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="buildlog">
+      <div class="sectionHead">
+        <div>
+          <h2>Build Log</h2>
+          <p>Small updates show momentum. Add entries as you ship.</p>
+        </div>
+        <p style="color:var(--muted)">Edit the entries in the HTML file.</p>
+      </div>
+
+      <div class="panel">
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="sectionHead">
+        <div>
+          <h2>Contact</h2>
+          <p>Pick a lane and I’ll respond faster.</p>
+        </div>
+        <p style="color:var(--muted)">Form is frontend-only for now.</p>
+      </div>
+
+      <div class="twoCol">
+        <div class="panel">
+          <h3>Send a message</h3>
+          <div style="display:grid;gap:10px;margin-top:10px">
+            <input class="input" id="name" placeholder="Name" />
+            <input class="input" id="email" placeholder="Email" />
+            <select class="input" id="lane">
+              <option>Investor / Funding</option>
+              <option>Partnership / Enterprise</option>
+              <option>Engineering / Hiring</option>
+              <option>Press / Speaking</option>
+              <option>Other</option>
+            </select>
+            <textarea class="input" id="msg" rows="5" placeholder="What do you want to build together?"></textarea>
+            <button class="btn btnAccent" id="sendBtn">Create email draft</button>
+            <div id="draft" style="color:var(--muted);font-size:13px;line-height:1.55"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>Quick links</h3>
+          <p>Swap these with your real links.</p>
+          <div class="hr"></div>
+          <p><b>GitHub:</b> <a class="mutedLink" href="#" onclick="toast('Add your GitHub link in the HTML');return false;">github.com/rafyblu</a></p>
+          <p><b>LinkedIn:</b> <a class="mutedLink" href="#" onclick="toast('Add your LinkedIn link in the HTML');return false;">linkedin.com/in/rafyblu</a></p>
+          <p><b>Email:</b> <a class="mutedLink" href="#" onclick="toast('Add your email in the HTML');return false;">rafy@yourdomain.com</a></p>
+          <div class="hr"></div>
+          <p style="color:var(--muted);font-size:13px">
+            Hosting: GitHub Pages (free), Cloudflare Pages (free), or Netlify (free).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>© <span id="year"></span> Rafy Blu • Built as a single-file interactive portfolio</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="mutedLink" href="#projects">Projects</a>
+        <a class="mutedLink" href="#ask">Ask Rafy</a>
+        <a class="mutedLink" href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Modal -->
+  <div class="modalBackdrop" id="backdrop" role="dialog" aria-modal="true" aria-label="Project details">
+    <div class="modal">
+      <div class="modalTop">
+        <div class="modalTitle">
+          <b id="mTitle">Project</b>
+          <span id="mSub">Category • Status</span>
+        </div>
+        <button class="iconBtn" id="closeBtn" aria-label="Close">Esc</button>
+      </div>
+      <div class="modalBody" id="mBody"></div>
+    </div>
+  </div>
+
+  <!-- Follow Updates Modal -->
+  <div class="modalBackdrop" id="followBackdrop" role="dialog" aria-modal="true" aria-label="Follow updates">
+    <div class="modal">
+      <div class="modalTop">
+        <div class="modalTitle">
+          <b id="fTitle">Follow Updates</b>
+          <span id="fSub">Get occasional updates from Rafy</span>
+        </div>
+        <button class="iconBtn" id="followCloseBtn" aria-label="Close">Esc</button>
+      </div>
+      <div class="modalBody">
+        <div class="followBox">
+          <div class="mini" style="margin-bottom:10px">
+            Enter your email to follow <b id="fProjectName">this project</b>. You can also select multiple projects.
+          </div>
+
+          <div class="inlineRow">
+            <input class="input" id="followEmail" placeholder="you@domain.com" inputmode="email" autocomplete="email" />
+            <button class="btn btnAccent" id="followSubmitBtn">Follow</button>
+          </div>
+
+          <div class="checkRow" id="followChecks" aria-label="Project selections"></div>
+
+          <div class="hr"></div>
+          <div class="mini">
+            Stored locally for now. Replace <b>localStorage</b> with your email provider later (Mailchimp/Beehiiv/ConvertKit/etc).
+          </div>
+
+          <div class="modalActions" style="margin-top:12px">
+            <button class="btn" id="copySubsJsonBtn">Copy subscribers JSON</button>
+            <button class="btn btnSoft" id="copyMailtoBtn">Create mailto draft (manual add)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---------------------------
+    // Data (StudentRide removed)
+    // ---------------------------
+    const projects = [
+      {
+        id: "polylango",
+        name: "PolyLingo",
+        tagline: "AI language learning with real conversation + pronunciation support.",
+        category: "AI",
+        status: "MVP",
+        tech: ["Web", "TTS", "Speech", "AI tutor UX"],
+        why: "Make language learning feel like daily real-life coaching with audio-first lessons and clean pronunciation toggles.",
+        whatNow: "Prototype lessons, audio-first navigation, and configurable daily learning routines.",
+        next: "Add auth + user profiles, integrate pronunciation scoring provider, add spaced repetition + assessments.",
+        links: [{label:"Demo", url:"#"}, {label:"Repo", url:"#"}]
+      },
+      {
+        id: "determiniety",
+        name: "Determiniety",
+        tagline: "Marketplace + community for people with disabilities, caregivers, and vendors.",
+        category: "Marketplace",
+        status: "Beta",
+        tech: ["Multi-tenant", "Payments", "Messaging", "Accessibility"],
+        why: "Reduce friction for care, products, and services by connecting the right people and providers faster.",
+        whatNow: "Core marketplace flows, profiles, listings, and vendor tiers (scaffolded).",
+        next: "Institution workflows, trust layers, deeper analytics, and smoother onboarding.",
+        links: [{label:"Overview", url:"#"}]
+      },
+      {
+        id: "smartsort",
+        name: "SmartSort",
+        tagline: "Sorting intelligence for circular economy operations.",
+        category: "Climate",
+        status: "MVP",
+        tech: ["Analytics", "IoT-ready", "Workflows"],
+        why: "Turn waste streams into measurable value by improving sorting accuracy and operational visibility.",
+        whatNow: "Concept + workflow mapping with scalable architecture direction.",
+        next: "Pilot dataset, operator UI, routing + quality scoring, dashboards.",
+        links: [{label:"Pitch", url:"#"}]
+      },
+      {
+        id: "megacomplex",
+        name: "Smart Mega Complex",
+        tagline: "Large-scale smart facility concept: living + wellness + food + energy.",
+        category: "Infrastructure",
+        status: "Raising",
+        tech: ["IoT", "Energy", "Facilities", "Design systems"],
+        why: "Integrated living + commerce with automation-first operations and sustainable systems.",
+        whatNow: "Concept packaging for partners/investors.",
+        next: "Site selection assumptions, capex model, partner pipeline, phased build plan.",
+        links: [{label:"Deck", url:"#"}]
+      },
+      {
+        id: "investorlab",
+        name: "Investor Project Lab",
+        tagline: "A pipeline to package investment-grade projects and match with investors.",
+        category: "Venture",
+        status: "Idea",
+        tech: ["CRM", "Pitch kits", "Workflow automation"],
+        why: "Turn raw ideas into investor-ready artifacts fast: deck, model, landing page, metrics, outreach.",
+        whatNow: "Early structure and positioning.",
+        next: "Automate pitch-kit generation + investor matching + follow-up tracking.",
+        links: [{label:"Concept", url:"#"}]
+      }
+    ];
+
+    const buildLog = [
+      {title:"Shipped interactive portfolio v1 (with Follow Updates)", date:"2026-01-03", detail:"Project filters, modal deep dives, Ask Rafy router, per-project email capture + CSV export."},
+      {title:"PolyLingo lesson UX iteration", date:"2025-12-20", detail:"Audio-first flow + daily item routines; preparing for auth & tutor layer."},
+      {title:"Determiniety workflow expansion", date:"2025-11-03", detail:"Marketplace + vendor experience improvements; exploring institution needs."}
+    ];
+
+    // ---------------------------
+    // Constants
+    // ---------------------------
+    const MAX_SUBSCRIBERS = 5000;
+    const MAX_SAVED_QUERIES = 25;
+    const TOAST_DURATION = 2600;
+
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    const LS_SUBS = "rafyblu_subscribers_v1";
+    const LS_QUERIES = "rafyblu_saved_queries";
+    
+    function sanitize(str) {
+      if (typeof str !== 'string') return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+    
+    function escapeHtml(str) {
+      return sanitize(String(str || ''));
+    }
+    
+    function getSubs() {
+      try {
+        return JSON.parse(localStorage.getItem(LS_SUBS) || "[]");
+      } catch (e) {
+        console.error("Error reading subscribers:", e);
+        return [];
+      }
+    }
+    
+    function setSubs(arr) {
+      try {
+        localStorage.setItem(LS_SUBS, JSON.stringify(arr));
+        updateSubCount();
+      } catch (e) {
+        console.error("Error saving subscribers:", e);
+        toast("Error saving subscribers. Storage may be full.");
+      }
+    }
+    
+    function normalizeEmail(e) { return (e || "").trim().toLowerCase(); }
+    
+    function isValidEmail(email) {
+      if (!email || typeof email !== 'string') return false;
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    }
+
+    const toastEl = document.getElementById("toast");
+    function toast(msg){
+      toastEl.textContent = String(msg || '');
+      toastEl.style.display = "block";
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=> toastEl.style.display="none", TOAST_DURATION);
+    }
+
+    // ---------------------------
+    // Projects UI
+    // ---------------------------
+    const grid = document.getElementById("grid");
+    const search = document.getElementById("search");
+    const status = document.getElementById("status");
+    const chips = document.getElementById("chips");
+
+    const categories = ["All", ...Array.from(new Set(projects.map(p => p.category)))];
+    let activeCategory = "All";
+
+    function renderChips(){
+      chips.innerHTML = "";
+      categories.forEach(cat=>{
+        const c = document.createElement("div");
+        c.className = "chip" + (cat===activeCategory ? " active":"");
+        c.textContent = cat;
+        c.onclick = ()=>{activeCategory = cat; renderChips(); renderGrid();};
+        chips.appendChild(c);
+      });
+    }
+
+    function matchProject(p, q){
+      if(!q) return true;
+      q = q.toLowerCase();
+      const hay = [p.name, p.tagline, p.category, p.status, ...(p.tech||[])].join(" ").toLowerCase();
+      return hay.includes(q);
+    }
+
+    function filtered(){
+      const q = search.value.trim();
+      return projects
+        .filter(p => activeCategory==="All" ? true : p.category===activeCategory)
+        .filter(p => status.value==="all" ? true : p.status===status.value)
+        .filter(p => matchProject(p, q));
+    }
+
+    function renderGrid(){
+      const list = filtered();
+      grid.innerHTML = "";
+      if(list.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "panel";
+        empty.style.gridColumn = "1 / -1";
+        empty.innerHTML = "<h3>No matches</h3><p>Try a different search or filter.</p>";
+        grid.appendChild(empty);
+        return;
+      }
+      list.forEach(p=>{
+        const el = document.createElement("div");
+        el.className = "proj";
+        el.tabIndex = 0;
+        el.innerHTML = `
+          <div class="tagRow">
+            <span class="tag kind">${escapeHtml(p.category)}</span>
+            <span class="tag status">${escapeHtml(p.status)}</span>
+          </div>
+          <h3>${escapeHtml(p.name)}</h3>
+          <p>${escapeHtml(p.tagline)}</p>
+          <div class="projActions">
+            <button class="btn btnSoft" data-open="${escapeHtml(p.id)}">Open</button>
+            <button class="btn btnAccent" data-follow="${escapeHtml(p.id)}">Follow updates</button>
+          </div>
+          <div class="meta">
+            <span>${escapeHtml((p.tech||[]).slice(0,2).join(" • ") || "—")}</span>
+            <span style="opacity:.9">Interactive</span>
+          </div>
+        `;
+
+        // card click = open (but don’t trigger when clicking buttons)
+        el.onclick = (e)=>{
+          const t = e.target;
+          if(t && t.closest && t.closest("button")) return;
+          openModal(p.id);
+        };
+        el.onkeydown = (e)=>{ if(e.key==="Enter") openModal(p.id); };
+
+        el.querySelectorAll("[data-open]").forEach(btn=>{
+          btn.onclick = ()=> openModal(btn.getAttribute("data-open"));
+        });
+        el.querySelectorAll("[data-follow]").forEach(btn=>{
+          btn.onclick = ()=> openFollow(btn.getAttribute("data-follow"));
+        });
+
+        grid.appendChild(el);
+      });
+    }
+
+    // ---------------------------
+    // Project modal
+    // ---------------------------
+    const backdrop = document.getElementById("backdrop");
+    const closeBtn = document.getElementById("closeBtn");
+    const mTitle = document.getElementById("mTitle");
+    const mSub = document.getElementById("mSub");
+    const mBody = document.getElementById("mBody");
+
+    function openModal(id){
+      const p = projects.find(x=>x.id===id);
+      if(!p) return;
+      mTitle.textContent = p.name;
+      mSub.textContent = `${p.category} • ${p.status}`;
+      
+      // Build links safely
+      const linksHtml = (p.links||[]).map(l=>{
+        const safeUrl = escapeHtml(l.url || '#');
+        const safeLabel = escapeHtml(l.label || 'Link');
+        const safeName = escapeHtml(p.name);
+        return `<a class="btn" href="${safeUrl}" data-link-url="${safeUrl}" data-link-name="${safeName}">${safeLabel}</a>`;
+      }).join("");
+      
+      // Build tech tags safely
+      const techTags = (p.tech||[]).slice(0,3).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("");
+      
+      mBody.innerHTML = `
+        <div class="tagRow">
+          <span class="tag kind">${escapeHtml(p.category)}</span>
+          <span class="tag status">${escapeHtml(p.status)}</span>
+          ${techTags}
+        </div>
+
+        <div class="kv">
+          <div class="k">TAGLINE</div><div class="v">${escapeHtml(p.tagline)}</div>
+          <div class="k">WHY</div><div class="v">${escapeHtml(p.why)}</div>
+          <div class="k">NOW</div><div class="v">${escapeHtml(p.whatNow)}</div>
+          <div class="k">NEXT</div><div class="v">${escapeHtml(p.next)}</div>
+        </div>
+
+        <div class="modalActions">
+          ${linksHtml || `<button class="btn" data-action="add-links">Add links</button>`}
+          <button class="btn btnAccent" data-action="follow" data-project-id="${escapeHtml(p.id)}">Follow updates</button>
+          <button class="btn" data-action="copy-summary" data-project-name="${escapeHtml(p.name)}" data-project-tagline="${escapeHtml(p.tagline)}">Copy summary</button>
+        </div>
+      `;
+      
+      // Attach event listeners safely
+      mBody.querySelectorAll('[data-link-url]').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const url = link.getAttribute('data-link-url');
+          if (url === '#' || !url) {
+            e.preventDefault();
+            const name = link.getAttribute('data-link-name');
+            toast(`Add a real link for ${name}.`);
+          }
+        });
+      });
+      
+      mBody.querySelector('[data-action="add-links"]')?.addEventListener('click', () => {
+        toast('Add links in the projects array');
+      });
+      
+      mBody.querySelector('[data-action="follow"]')?.addEventListener('click', () => {
+        const projectId = mBody.querySelector('[data-action="follow"]')?.getAttribute('data-project-id');
+        if (projectId) openFollow(projectId);
+      });
+      
+      mBody.querySelector('[data-action="copy-summary"]')?.addEventListener('click', () => {
+        const name = mBody.querySelector('[data-action="copy-summary"]')?.getAttribute('data-project-name') || '';
+        const tagline = mBody.querySelector('[data-action="copy-summary"]')?.getAttribute('data-project-tagline') || '';
+        const text = `${name} — ${tagline}`;
+        navigator.clipboard?.writeText(text).then(() => toast('Copied project summary'));
+      });
+      
+      backdrop.style.display = "flex";
+      closeBtn.focus();
+    }
+
+    function closeModal(){backdrop.style.display="none";}
+    closeBtn.onclick = closeModal;
+    backdrop.onclick = (e)=>{ if(e.target===backdrop) closeModal(); };
+
+    // ---------------------------
+    // Follow Updates modal (email capture)
+    // ---------------------------
+    const followBackdrop = document.getElementById("followBackdrop");
+    const followCloseBtn = document.getElementById("followCloseBtn");
+    const fProjectName = document.getElementById("fProjectName");
+    const followEmail = document.getElementById("followEmail");
+    const followSubmitBtn = document.getElementById("followSubmitBtn");
+    const followChecks = document.getElementById("followChecks");
+    const fTitle = document.getElementById("fTitle");
+    const fSub = document.getElementById("fSub");
+
+    let followDefaultProjectId = null;
+
+    function openFollow(projectId){
+      followDefaultProjectId = projectId || null;
+      const p = projects.find(x=>x.id===projectId);
+      fTitle.textContent = "Follow Updates";
+      fSub.textContent = "Get occasional updates from Rafy";
+      fProjectName.textContent = p ? p.name : "these projects";
+
+      // render project check pills
+      followChecks.innerHTML = "";
+      projects.forEach(pr=>{
+        const label = document.createElement("label");
+        label.className = "check";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = pr.id || '';
+        const span = document.createElement("span");
+        span.textContent = pr.name || '';
+        label.appendChild(input);
+        label.appendChild(span);
+        followChecks.appendChild(label);
+      });
+
+      // pre-check the clicked project
+      if(projectId){
+        const cb = followChecks.querySelector(`input[value="${projectId}"]`);
+        if(cb) cb.checked = true;
+      }
+
+      followEmail.value = "";
+      followBackdrop.style.display = "flex";
+      setTimeout(()=> followEmail.focus(), 50);
+    }
+
+    function closeFollow(){ followBackdrop.style.display = "none"; }
+    followCloseBtn.onclick = closeFollow;
+    followBackdrop.onclick = (e)=>{ if(e.target===followBackdrop) closeFollow(); };
+
+    function selectedProjectIds(){
+      return Array.from(followChecks.querySelectorAll("input[type='checkbox']:checked")).map(x=>x.value);
+    }
+
+    function upsertSubscriber(email, projectIds){
+      const subs = getSubs();
+      const e = normalizeEmail(email);
+      const now = new Date().toISOString();
+
+      const idx = subs.findIndex(s => (s.email||"").toLowerCase() === e);
+      if(idx >= 0){
+        const existing = subs[idx];
+        const merged = Array.from(new Set([...(existing.projects||[]), ...projectIds]));
+        subs[idx] = {...existing, email:e, projects: merged, updatedAt: now};
+      }else{
+        subs.unshift({email:e, projects: projectIds, createdAt: now, updatedAt: now});
+      }
+      setSubs(subs.slice(0, MAX_SUBSCRIBERS));
+    }
+
+    followSubmitBtn.onclick = ()=>{
+      const email = normalizeEmail(followEmail.value);
+      if(!isValidEmail(email)){
+        toast("Please enter a valid email address.");
+        return;
+      }
+      const picks = selectedProjectIds();
+      if(picks.length === 0){
+        toast("Select at least one project to follow.");
+        return;
+      }
+      upsertSubscriber(email, picks);
+      toast("Subscribed! (stored locally for now)");
+      closeFollow();
+    };
+
+    document.getElementById("copySubsJsonBtn").onclick = ()=>{
+      const subs = getSubs();
+      const json = JSON.stringify(subs, null, 2);
+      navigator.clipboard?.writeText(json).then(()=>toast("Copied subscribers JSON"));
+    };
+
+    document.getElementById("copyMailtoBtn").onclick = ()=>{
+      const subs = getSubs();
+      const emails = subs.map(s=>s.email).filter(Boolean).join(",");
+      if(!emails){
+        toast("No subscribers yet.");
+        return;
+      }
+      const subject = encodeURIComponent("Rafy Blu — Updates");
+      const body = encodeURIComponent("Hi — quick update from Rafy Blu:\n\n(Write your update here)\n\n— Rafy");
+      const mailto = `mailto:?bcc=${encodeURIComponent(emails)}&subject=${subject}&body=${body}`;
+      navigator.clipboard?.writeText(mailto).then(()=>toast("Copied a mailto link (paste into browser/address bar)"));
+    };
+
+    // ---------------------------
+    // Newsletter list controls
+    // ---------------------------
+    const subCount = document.getElementById("subCount");
+    function updateSubCount(){
+      const n = getSubs().length;
+      subCount.textContent = `${n} subscriber${n===1?"":"s"}`;
+    }
+
+    function toCsv(rows){
+      const esc = (v)=> `"${String(v ?? "").replaceAll('"','""')}"`;
+      const header = ["email","projects","createdAt","updatedAt"].map(esc).join(",");
+      const lines = rows.map(r=>{
+        const projNames = (r.projects||[]).map(id => (projects.find(p=>p.id===id)?.name || id)).join(" | ");
+        return [r.email, projNames, r.createdAt, r.updatedAt].map(esc).join(",");
+      });
+      return [header, ...lines].join("\n");
+    }
+
+    function downloadFile(filename, content, mime="text/plain"){
+      const blob = new Blob([content], {type:mime});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById("exportCsvBtn").onclick = ()=>{
+      const rows = getSubs();
+      if(rows.length === 0){
+        toast("No subscribers yet.");
+        return;
+      }
+      const csv = toCsv(rows);
+      downloadFile("rafyblu_subscribers.csv", csv, "text/csv");
+      toast("Exported CSV");
+    };
+
+    document.getElementById("clearSubsBtn").onclick = ()=>{
+      localStorage.removeItem(LS_SUBS);
+      updateSubCount();
+      toast("Cleared local subscribers list");
+    };
+
+    // ---------------------------
+    // Ask Rafy (router)
+    // ---------------------------
+    const askInput = document.getElementById("askInput");
+    const askBtn = document.getElementById("askBtn");
+    const saveQueryBtn = document.getElementById("saveQueryBtn");
+    const askResult = document.getElementById("askResult");
+
+    function scoreProject(p, q){
+      const text = [p.name, p.tagline, p.category, ...(p.tech||[]), p.why, p.whatNow, p.next].join(" ").toLowerCase();
+      const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
+      let score = 0;
+      for(const t of terms){
+        if(text.includes(t)) score += 2;
+        if(p.category.toLowerCase().includes(t)) score += 3;
+        if(p.status.toLowerCase().includes(t)) score += 1;
+      }
+      return score;
+    }
+
+    function route(){
+      const q = (askInput.value || "").trim();
+      if(!q){
+        askResult.textContent = "Type a topic and I'll route you.";
+        return;
+      }
+      const ranked = [...projects]
+        .map(p=>({p, s: scoreProject(p,q)}))
+        .sort((a,b)=>b.s-a.s);
+      const top = ranked[0];
+      if(!top || top.s === 0){
+        askResult.innerHTML = `I couldn't confidently match that. Try keywords like <b>AI</b>, <b>marketplace</b>, <b>climate</b>, <b>infrastructure</b>, or a project name.`;
+        return;
+      }
+      
+      // Build result safely
+      const safeName = escapeHtml(top.p.name);
+      const safeTagline = escapeHtml(top.p.tagline);
+      const safeId = escapeHtml(top.p.id);
+      
+      askResult.innerHTML = `
+        Start with: <b>${safeName}</b><br/>
+        <span style="color:var(--muted)">${safeTagline}</span><br/><br/>
+        <button class="btn btnAccent" data-route-open="${safeId}">Open deep dive</button>
+        <button class="btn btnSoft" data-route-follow="${safeId}">Follow updates</button>
+      `;
+      
+      // Attach event listeners safely
+      askResult.querySelector(`[data-route-open="${safeId}"]`)?.addEventListener('click', () => {
+        openModal(top.p.id);
+      });
+      askResult.querySelector(`[data-route-follow="${safeId}"]`)?.addEventListener('click', () => {
+        openFollow(top.p.id);
+      });
+    }
+
+    askBtn.onclick = route;
+    askInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter") route(); });
+
+    saveQueryBtn.onclick = ()=>{
+      const q = (askInput.value || "").trim();
+      if(!q){ toast("Type a query first"); return; }
+      try {
+        const arr = JSON.parse(localStorage.getItem(LS_QUERIES) || "[]");
+        arr.unshift({q, at: new Date().toISOString()});
+        localStorage.setItem(LS_QUERIES, JSON.stringify(arr.slice(0, MAX_SAVED_QUERIES)));
+        toast("Saved (local only)");
+      } catch (e) {
+        console.error("Error saving query:", e);
+        toast("Error saving query");
+      }
+    };
+
+    // ---------------------------
+    // Build log render
+    // ---------------------------
+    const timeline = document.getElementById("timeline");
+    function renderTimeline(){
+      timeline.innerHTML = "";
+      buildLog
+        .slice()
+        .sort((a,b)=> (b.date||"").localeCompare(a.date||""))
+        .forEach(e=>{
+          const row = document.createElement("div");
+          row.className = "entry";
+          row.innerHTML = `
+            <div class="dot"></div>
+            <div>
+              <b>${e.title}</b>
+              <div style="color:rgba(232,238,252,.78);font-size:12.5px;margin-top:4px">${new Date(e.date).toLocaleDateString()}</div>
+              <small>${e.detail}</small>
+            </div>
+          `;
+          timeline.appendChild(row);
+        });
+    }
+
+    // ---------------------------
+    // Contact: create a mailto draft
+    // ---------------------------
+    document.getElementById("sendBtn").onclick = ()=>{
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const lane = document.getElementById("lane").value;
+      const msg = document.getElementById("msg").value.trim();
+      const draft = document.getElementById("draft");
+
+      const subject = encodeURIComponent(`[Rafy Blu] ${lane} — ${name || "New message"}`);
+      const bodyText = `Hi Rafy,\n\n${msg || "(write your message here)"}\n\n— ${name || "Your name"}\n${email ? email : ""}`;
+      const body = encodeURIComponent(bodyText);
+
+      draft.innerHTML = `
+        <div style="margin-top:10px">
+          <div class="k">DRAFT</div>
+          <div class="v">Click to open your email app with a prefilled message.</div>
+          <div class="modalActions" style="margin-top:10px">
+            <a class="btn btnAccent" href="mailto:rafy@yourdomain.com?subject=${subject}&body=${body}" data-email-draft>Open email draft</a>
+            <button class="btn" data-copy-message>Copy message</button>
+          </div>
+        </div>
+      `;
+      
+      // Attach event listeners safely
+      draft.querySelector('[data-email-draft]')?.addEventListener('click', (e) => {
+        toast('Replace rafy@yourdomain.com with your real email');
+      });
+      
+      draft.querySelector('[data-copy-message]')?.addEventListener('click', () => {
+        navigator.clipboard?.writeText(bodyText).then(() => toast('Copied message'));
+      });
+      
+      toast("Draft ready");
+    };
+
+    // ---------------------------
+    // Keyboard shortcuts
+    // ---------------------------
+    window.addEventListener("keydown",(e)=>{
+      if(e.key==="Escape"){
+        backdrop.style.display="none";
+        followBackdrop.style.display="none";
+      }
+      if(e.key==="/" && document.activeElement !== search){
+        e.preventDefault();
+        search.focus();
+      }
+      if((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="k"){
+        e.preventDefault();
+        document.getElementById("projects").scrollIntoView({behavior:"smooth"});
+        setTimeout(()=>search.focus(), 250);
+      }
+      if(e.key==="Enter" && document.activeElement === search){
+        const list = filtered();
+        if(list[0]) openModal(list[0].id);
+      }
+    });
+
+    // ---------------------------
+    // Daily Jim Rohn Quote
+    // ---------------------------
+    const jimRohnQuotes = [
+      "The major value in life is not what you get. The major value in life is what you become.",
+      "Success is nothing more than a few simple disciplines, practiced every day.",
+      "If you don't design your own life plan, chances are you'll fall into someone else's plan.",
+      "Motivation is what gets you started. Habit is what keeps you going.",
+      "Your life does not get better by chance, it gets better by change.",
+      "The challenge of leadership is to be strong, but not rude; be kind, but not weak; be bold, but not a bully; be thoughtful, but not lazy; be humble, but not timid; be proud, but not arrogant; have humor, but without folly.",
+      "Formal education will make you a living; self-education will make you a fortune.",
+      "You must take personal responsibility. You cannot change the circumstances, the seasons, or the wind, but you can change yourself.",
+      "Don't wish it were easier, wish you were better.",
+      "We must all suffer from one of two pains: the pain of discipline or the pain of regret. The difference is discipline weighs ounces while regret weighs tons.",
+      "The only way to do great work is to love what you do.",
+      "Success is not to be pursued; it is to be attracted by the person you become.",
+      "Take care of your body. It's the only place you have to live.",
+      "If you are not willing to risk the usual, you will have to settle for the ordinary.",
+      "The greatest gift you can give to somebody is your own personal development.",
+      "Work harder on yourself than you do on your job.",
+      "The few who do are the envy of the many who only watch.",
+      "Either you run the day, or the day runs you.",
+      "Time is more valuable than money. You can get more money, but you cannot get more time.",
+      "The best investment you can make is in yourself.",
+      "Success is doing ordinary things extraordinarily well.",
+      "If you really want to do something, you'll find a way. If you don't, you'll find an excuse.",
+      "The walls we build around us to keep sadness out also keeps out the joy.",
+      "Happiness is not something you postpone for the future; it is something you design for the present.",
+      "The only difference between where you are today and where you'll be next year is the books you read and the people you meet.",
+      "You are the average of the five people you spend the most time with.",
+      "Discipline is the bridge between goals and accomplishment.",
+      "The more you learn, the more you earn.",
+      "Don't join an easy crowd; you won't grow. Go where the expectations and the demands to perform are high.",
+      "Take inventory of your life. Where have you been? Where are you now? Where do you want to go?"
+    ];
+    
+    function getDailyQuote() {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      const quoteIndex = dayOfYear % jimRohnQuotes.length;
+      return jimRohnQuotes[quoteIndex];
+    }
+    
+    function updateDailyQuote() {
+      const quoteEl = document.getElementById("dailyQuote");
+      if (quoteEl) {
+        quoteEl.textContent = `"${getDailyQuote()}"`;
+      }
+    }
+
+    // ---------------------------
+    // Init
+    // ---------------------------
+    document.getElementById("year").textContent = new Date().getFullYear();
+    updateDailyQuote();
+
+    search.addEventListener("input", renderGrid);
+    status.addEventListener("change", renderGrid);
+
+    document.getElementById("randomProjectBtn").onclick = ()=>{
+      const list = filtered();
+      const pick = list[Math.floor(Math.random()*list.length)] || projects[Math.floor(Math.random()*projects.length)];
+      openModal(pick.id);
+    };
+
+    renderChips();
+    renderGrid();
+    renderTimeline();
+    updateSubCount();
+  </script>
+</body>
+</html>
