@@ -281,15 +281,18 @@
       background:rgba(15,23,38,.65);
       width:100%;
       order:3;
-      display:flex;
+      display:flex !important;
       align-items:center;
       gap:8px;
       overflow:hidden;
+      visibility:visible;
+      opacity:1;
     }
     @media (min-width: 1600px){
       .headlineBox{
         margin-top:8px;
         order:2;
+        display:flex !important;
       }
     }
     .headlineLabel{
@@ -2222,8 +2225,24 @@
     }
 
     function initHeadline() {
-      // Try alternative method first (more reliable)
-      fetchHeadlineAlternative();
+      const headlineText = document.getElementById("headlineText");
+      const headlineLink = document.getElementById("headlineLink");
+      
+      if (!headlineText || !headlineLink) {
+        console.error('Headline elements not found!');
+        return;
+      }
+
+      // Show fallback data immediately
+      const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      const headlineIndex = dayOfYear % fallbackHeadlines.length;
+      const selectedHeadline = fallbackHeadlines[headlineIndex];
+      headlineText.textContent = selectedHeadline.title;
+      headlineLink.href = selectedHeadline.url;
+
+      // Then try to fetch real headline
+      setTimeout(() => fetchHeadlineAlternative(), 500);
+      
       // Update every 30 minutes
       setInterval(fetchHeadlineAlternative, 1800000);
     }
@@ -2252,14 +2271,16 @@
     }
 
     // Run immediately and on DOM ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        initTicker();
-        initHeadline();
-      });
-    } else {
+    function initAll() {
       initTicker();
       initHeadline();
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      // DOM already loaded, run immediately
+      setTimeout(initAll, 0);
     }
     
     // Update ticker every 60 seconds
