@@ -60,10 +60,16 @@
       margin:0 auto;
       padding:14px 18px;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
       gap:12px;
       flex-wrap:wrap;
+    }
+    @media (min-width: 1800px){
+      .navInner{
+        align-items:center;
+        flex-wrap:nowrap;
+      }
     }
     @media (max-width: 1400px){
       .navInner{flex-wrap:wrap;gap:10px}
@@ -73,23 +79,18 @@
     }
     .brand{
       display:flex;
-      align-items:center;
-      gap:10px;
-      flex:0 1 auto;
+      flex-direction:column;
+      gap:8px;
+      flex:1 1 100%;
       min-width:0;
       position:relative;
+      order:1;
+      max-width:100%;
     }
-    @media (max-width: 1600px){
-      .brand{
-        flex:1 1 100%;
-        order:1;
-        max-width:100%;
-      }
-    }
-    @media (min-width: 1601px){
+    @media (min-width: 1800px){
       .brand{
         flex:0 1 auto;
-        max-width:400px;
+        max-width:600px;
       }
     }
     .brandContent{
@@ -98,6 +99,7 @@
       gap:10px;
       text-decoration:none;
       flex-shrink:0;
+      width:100%;
     }
     .logo{
       width:34px;height:34px;border-radius:12px;
@@ -145,24 +147,16 @@
       overflow:hidden;
       flex-shrink:1;
       min-width:0;
-      margin-left:0;
-      margin-top:8px;
-      border-left:none;
-      border-top:1px solid var(--line);
       width:100%;
       justify-content:flex-start;
       order:2;
       max-width:100%;
     }
-    @media (min-width: 1600px){
+    @media (min-width: 1800px){
       .brandTicker{
-        margin-left:12px;
-        margin-top:0;
-        border-left:1px solid var(--line);
-        border-top:none;
         width:auto;
-        max-width:450px;
-        order:0;
+        max-width:500px;
+        flex-shrink:0;
       }
     }
     @media (max-width: 1100px){
@@ -274,7 +268,6 @@
       font-size:10px;
     }
     .headlineBox{
-      margin-top:8px;
       padding:6px 12px;
       border:1px solid var(--line);
       border-radius:8px;
@@ -287,12 +280,15 @@
       overflow:hidden;
       visibility:visible;
       opacity:1;
+      flex-shrink:1;
+      min-width:0;
     }
-    @media (min-width: 1600px){
+    @media (min-width: 1800px){
       .headlineBox{
-        margin-top:8px;
-        order:2;
-        display:flex !important;
+        width:auto;
+        flex:1 1 auto;
+        min-width:300px;
+        max-width:600px;
       }
     }
     .headlineLabel{
@@ -348,22 +344,17 @@
       gap:8px;
       flex-wrap:wrap;
       justify-content:flex-end;
-      flex:0 1 auto;
+      flex:1 1 100%;
       min-width:0;
-      flex-shrink:0;
+      order:4;
+      margin-top:8px;
     }
-    @media (max-width: 1600px){
-      .pillRow{
-        flex:1 1 100%;
-        order:3;
-        justify-content:flex-start;
-        margin-top:8px;
-      }
-    }
-    @media (min-width: 1601px){
+    @media (min-width: 1800px){
       .pillRow{
         flex:0 1 auto;
         min-width:300px;
+        margin-top:0;
+        order:2;
       }
     }
     @media (max-width: 640px){
@@ -945,13 +936,13 @@
     <div class="navInner">
       <div class="brand">
         <a class="brandContent" href="#top" aria-label="Rafy Blu home">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <strong>Rafy Blu</strong><br/>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <strong>Rafy Blu</strong><br/>
             <span style="color:var(--muted);font-size:12px">Builder's Lab</span>
             <span class="brandQuote" id="dailyQuote"></span>
-          </div>
-        </a>
+        </div>
+      </a>
         <div class="brandTicker" id="stockTicker" aria-label="Stock and crypto prices" style="display:flex;">
           <div class="tickerLoading">Loading...</div>
         </div>
@@ -1734,10 +1725,10 @@
       const q = (askInput.value || "").trim();
       if(!q){ toast("Type a query first"); return; }
       try {
-        const arr = JSON.parse(localStorage.getItem(LS_QUERIES) || "[]");
-        arr.unshift({q, at: new Date().toISOString()});
+      const arr = JSON.parse(localStorage.getItem(LS_QUERIES) || "[]");
+      arr.unshift({q, at: new Date().toISOString()});
         localStorage.setItem(LS_QUERIES, JSON.stringify(arr.slice(0, MAX_SAVED_QUERIES)));
-        toast("Saved (local only)");
+      toast("Saved (local only)");
       } catch (e) {
         console.error("Error saving query:", e);
         toast("Error saving query");
