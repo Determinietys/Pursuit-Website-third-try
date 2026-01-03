@@ -940,7 +940,6 @@
       </div>
       <div class="pillRow">
         <a class="pill" href="#projects">Projects</a>
-        <a class="pill" href="#buildlog">Build Log</a>
         <a class="pill" href="#ask">Ask Rafy</a>
         <a class="pill primary" href="#contact">Contact</a>
       </div>
@@ -1068,20 +1067,6 @@
             Ask something above to get a tailored recommendation.
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="buildlog">
-      <div class="sectionHead">
-        <div>
-          <h2>Build Log</h2>
-          <p>Small updates show momentum. Add entries as you ship.</p>
-        </div>
-        <p style="color:var(--muted)">Edit the entries in the HTML file.</p>
-      </div>
-
-      <div class="panel">
-        <div class="timeline" id="timeline"></div>
       </div>
     </section>
 
@@ -1256,12 +1241,6 @@
         next: "Automate pitch-kit generation + investor matching + follow-up tracking.",
         links: [{label:"Concept", url:"#"}]
       }
-    ];
-
-    const buildLog = [
-      {title:"Shipped interactive portfolio v1 (with Follow Updates)", date:"2026-01-03", detail:"Project filters, modal deep dives, Ask Rafy router, per-project email capture + CSV export."},
-      {title:"PolyLingo lesson UX iteration", date:"2025-12-20", detail:"Audio-first flow + daily item routines; preparing for auth & tutor layer."},
-      {title:"Determiniety workflow expansion", date:"2025-11-03", detail:"Marketplace + vendor experience improvements; exploring institution needs."}
     ];
 
     // ---------------------------
@@ -1719,30 +1698,6 @@
         toast("Error saving query");
       }
     };
-
-    // ---------------------------
-    // Build log render
-    // ---------------------------
-    const timeline = document.getElementById("timeline");
-    function renderTimeline(){
-      timeline.innerHTML = "";
-      buildLog
-        .slice()
-        .sort((a,b)=> (b.date||"").localeCompare(a.date||""))
-        .forEach(e=>{
-          const row = document.createElement("div");
-          row.className = "entry";
-          row.innerHTML = `
-            <div class="dot"></div>
-            <div>
-              <b>${e.title}</b>
-              <div style="color:rgba(232,238,252,.78);font-size:12.5px;margin-top:4px">${new Date(e.date).toLocaleDateString()}</div>
-              <small>${e.detail}</small>
-            </div>
-          `;
-          timeline.appendChild(row);
-        });
-    }
 
     // ---------------------------
     // Contact: create a mailto draft
@@ -2279,7 +2234,6 @@
 
     renderChips();
     renderGrid();
-    renderTimeline();
     updateSubCount();
   </script>
 </body>
