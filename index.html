@@ -940,7 +940,6 @@
       </div>
       <div class="pillRow">
         <a class="pill" href="#projects">Projects</a>
-        <a class="pill" href="#ask">Ask Rafy</a>
         <a class="pill primary" href="#contact">Contact</a>
       </div>
     </div>
@@ -1023,51 +1022,6 @@
       </div>
 
       <div class="grid" id="grid" aria-live="polite"></div>
-
-      <div class="panel" style="margin-top:12px">
-        <h3>Newsletter list (local for now)</h3>
-        <p>
-          Subscribers are saved in your browser only. Use <b>Export CSV</b> to download the list.
-          Later, we can connect this to a real database/service.
-        </p>
-        <div class="inlineRow" style="margin-top:10px">
-          <button class="btn" id="exportCsvBtn">Export CSV</button>
-          <button class="btn btnDanger" id="clearSubsBtn" title="Clears local subscribers list">Clear local list</button>
-          <span class="mini" id="subCount">0 subscribers</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="ask">
-      <div class="sectionHead">
-        <div>
-          <h2>Ask Rafy</h2>
-          <p>Type what you’re interested in — I’ll route you to the best project to start with.</p>
-        </div>
-        <p style="color:var(--muted)">No backend required (yet).</p>
-      </div>
-
-      <div class="twoCol">
-        <div class="panel">
-          <h3>Your question</h3>
-          <p style="margin-bottom:10px">Examples: “AI tutor”, “disability marketplace”, “smart facility”, “circular economy”.</p>
-          <input class="input" id="askInput" placeholder="What do you want to explore?" />
-          <div class="modalActions">
-            <button class="btn btnAccent" id="askBtn">Route me</button>
-            <button class="btn" id="saveQueryBtn">Save my query</button>
-          </div>
-          <p style="margin-top:12px;color:var(--muted);font-size:12.5px">
-            Saved queries are stored in your browser (localStorage). Later you can wire this to a real database.
-          </p>
-        </div>
-
-        <div class="panel">
-          <h3>Suggested starting point</h3>
-          <div id="askResult" style="margin-top:10px;color:var(--muted);font-size:13.5px;line-height:1.55">
-            Ask something above to get a tailored recommendation.
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="section" id="reading">
@@ -1165,7 +1119,6 @@
       <div>© <span id="year"></span> Rafy Blu • Built as a single-file interactive portfolio</div>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <a class="mutedLink" href="#projects">Projects</a>
-        <a class="mutedLink" href="#ask">Ask Rafy</a>
         <a class="mutedLink" href="#contact">Contact</a>
       </div>
     </div>
@@ -1327,7 +1280,6 @@
     function setSubs(arr) {
       try {
         localStorage.setItem(LS_SUBS, JSON.stringify(arr));
-        updateSubCount();
       } catch (e) {
         console.error("Error saving subscribers:", e);
         toast("Error saving subscribers. Storage may be full.");
@@ -1626,126 +1578,6 @@
       navigator.clipboard?.writeText(mailto).then(()=>toast("Copied a mailto link (paste into browser/address bar)"));
     };
 
-    // ---------------------------
-    // Newsletter list controls
-    // ---------------------------
-    const subCount = document.getElementById("subCount");
-    function updateSubCount(){
-      const n = getSubs().length;
-      subCount.textContent = `${n} subscriber${n===1?"":"s"}`;
-    }
-
-    function toCsv(rows){
-      const esc = (v)=> `"${String(v ?? "").replaceAll('"','""')}"`;
-      const header = ["email","projects","createdAt","updatedAt"].map(esc).join(",");
-      const lines = rows.map(r=>{
-        const projNames = (r.projects||[]).map(id => (projects.find(p=>p.id===id)?.name || id)).join(" | ");
-        return [r.email, projNames, r.createdAt, r.updatedAt].map(esc).join(",");
-      });
-      return [header, ...lines].join("\n");
-    }
-
-    function downloadFile(filename, content, mime="text/plain"){
-      const blob = new Blob([content], {type:mime});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    document.getElementById("exportCsvBtn").onclick = ()=>{
-      const rows = getSubs();
-      if(rows.length === 0){
-        toast("No subscribers yet.");
-        return;
-      }
-      const csv = toCsv(rows);
-      downloadFile("rafyblu_subscribers.csv", csv, "text/csv");
-      toast("Exported CSV");
-    };
-
-    document.getElementById("clearSubsBtn").onclick = ()=>{
-      localStorage.removeItem(LS_SUBS);
-      updateSubCount();
-      toast("Cleared local subscribers list");
-    };
-
-    // ---------------------------
-    // Ask Rafy (router)
-    // ---------------------------
-    const askInput = document.getElementById("askInput");
-    const askBtn = document.getElementById("askBtn");
-    const saveQueryBtn = document.getElementById("saveQueryBtn");
-    const askResult = document.getElementById("askResult");
-
-    function scoreProject(p, q){
-      const text = [p.name, p.tagline, p.category, ...(p.tech||[]), p.why, p.whatNow, p.next].join(" ").toLowerCase();
-      const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
-      let score = 0;
-      for(const t of terms){
-        if(text.includes(t)) score += 2;
-        if(p.category.toLowerCase().includes(t)) score += 3;
-        if(p.status.toLowerCase().includes(t)) score += 1;
-      }
-      return score;
-    }
-
-    function route(){
-      const q = (askInput.value || "").trim();
-      if(!q){
-        askResult.textContent = "Type a topic and I'll route you.";
-        return;
-      }
-      const ranked = [...projects]
-        .map(p=>({p, s: scoreProject(p,q)}))
-        .sort((a,b)=>b.s-a.s);
-      const top = ranked[0];
-      if(!top || top.s === 0){
-        askResult.innerHTML = `I couldn't confidently match that. Try keywords like <b>AI</b>, <b>marketplace</b>, <b>climate</b>, <b>infrastructure</b>, or a project name.`;
-        return;
-      }
-      
-      // Build result safely
-      const safeName = escapeHtml(top.p.name);
-      const safeTagline = escapeHtml(top.p.tagline);
-      const safeId = escapeHtml(top.p.id);
-      
-      askResult.innerHTML = `
-        Start with: <b>${safeName}</b><br/>
-        <span style="color:var(--muted)">${safeTagline}</span><br/><br/>
-        <button class="btn btnAccent" data-route-open="${safeId}">Open deep dive</button>
-        <button class="btn btnSoft" data-route-follow="${safeId}">Follow updates</button>
-      `;
-      
-      // Attach event listeners safely
-      askResult.querySelector(`[data-route-open="${safeId}"]`)?.addEventListener('click', () => {
-        openModal(top.p.id);
-      });
-      askResult.querySelector(`[data-route-follow="${safeId}"]`)?.addEventListener('click', () => {
-        openFollow(top.p.id);
-      });
-    }
-
-    askBtn.onclick = route;
-    askInput.addEventListener("keydown",(e)=>{ if(e.key==="Enter") route(); });
-
-    saveQueryBtn.onclick = ()=>{
-      const q = (askInput.value || "").trim();
-      if(!q){ toast("Type a query first"); return; }
-      try {
-      const arr = JSON.parse(localStorage.getItem(LS_QUERIES) || "[]");
-      arr.unshift({q, at: new Date().toISOString()});
-        localStorage.setItem(LS_QUERIES, JSON.stringify(arr.slice(0, MAX_SAVED_QUERIES)));
-      toast("Saved (local only)");
-      } catch (e) {
-        console.error("Error saving query:", e);
-        toast("Error saving query");
-      }
-    };
 
     // ---------------------------
     // Contact: create a mailto draft
@@ -2422,7 +2254,6 @@
 
     renderChips();
     renderGrid();
-    updateSubCount();
   </script>
 </body>
 </html>
