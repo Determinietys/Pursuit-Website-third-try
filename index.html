@@ -146,7 +146,6 @@
     .brandTicker{
       display:flex !important;
       align-items:center;
-      gap:8px;
       padding:8px 12px;
       border:1px solid var(--line);
       border-radius:8px;
@@ -155,26 +154,38 @@
       font-size:14px;
       visibility:visible;
       opacity:1;
-      flex-wrap:nowrap;
-      overflow-x:auto;
-      overflow-y:hidden;
       width:100%;
-      justify-content:flex-start;
       box-sizing:border-box;
       order:1;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:thin;
+      overflow:hidden;
+      position:relative;
     }
-    .brandTicker::-webkit-scrollbar{
-      height:4px;
+    .tickerWrapper{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      animation:scrollTicker 30s linear infinite;
+      will-change:transform;
     }
-    .brandTicker::-webkit-scrollbar-track{
-      background:rgba(15,23,38,.3);
-      border-radius:2px;
+    @keyframes scrollTicker{
+      0%{
+        transform:translateX(0);
+      }
+      100%{
+        transform:translateX(-50%);
+      }
     }
-    .brandTicker::-webkit-scrollbar-thumb{
-      background:rgba(38,214,161,.4);
-      border-radius:2px;
+    .tickerContent{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+    }
+    .tickerContentDuplicate{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
     }
     @media (min-width: 1200px){
       .brandTicker{
@@ -1912,9 +1923,7 @@
           });
         }
 
-        if (html) {
-          tickerEl.innerHTML = html;
-        } else {
+        if (!html) {
           // Show fallback data if everything fails
           fallbackData.stocks.forEach(stock => {
             html += renderTickerItem(stock.symbol, stock.price, stock.change, stock.changePercent);
@@ -1922,8 +1931,25 @@
           fallbackData.crypto.forEach(crypto => {
             html += renderTickerItem(crypto.symbol, crypto.price, crypto.change);
           });
-          tickerEl.innerHTML = html;
         }
+
+        // Create scrolling ticker with duplicated content for seamless loop
+        const wrapper = document.createElement('div');
+        wrapper.className = 'tickerWrapper';
+        
+        const content1 = document.createElement('div');
+        content1.className = 'tickerContent';
+        content1.innerHTML = html;
+        
+        const content2 = document.createElement('div');
+        content2.className = 'tickerContentDuplicate';
+        content2.innerHTML = html; // Duplicate for seamless loop
+        
+        wrapper.appendChild(content1);
+        wrapper.appendChild(content2);
+        
+        tickerEl.innerHTML = '';
+        tickerEl.appendChild(wrapper);
       } catch (error) {
         console.error('Error updating ticker:', error);
         // Show fallback data on error
@@ -1934,8 +1960,26 @@
         fallbackData.crypto.forEach(crypto => {
           html += renderTickerItem(crypto.symbol, crypto.price, crypto.change);
         });
+        
         const tickerEl = document.getElementById("stockTicker");
-        if (tickerEl) tickerEl.innerHTML = html;
+        if (tickerEl) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'tickerWrapper';
+          
+          const content1 = document.createElement('div');
+          content1.className = 'tickerContent';
+          content1.innerHTML = html;
+          
+          const content2 = document.createElement('div');
+          content2.className = 'tickerContentDuplicate';
+          content2.innerHTML = html;
+          
+          wrapper.appendChild(content1);
+          wrapper.appendChild(content2);
+          
+          tickerEl.innerHTML = '';
+          tickerEl.appendChild(wrapper);
+        }
       }
     }
 
@@ -2214,7 +2258,7 @@
         return;
       }
       
-      // Show fallback data immediately
+      // Show fallback data immediately with scrolling animation
       let html = '';
       fallbackData.stocks.forEach(stock => {
         html += renderTickerItem(stock.symbol, stock.price, stock.change, stock.changePercent);
@@ -2222,7 +2266,24 @@
       fallbackData.crypto.forEach(crypto => {
         html += renderTickerItem(crypto.symbol, crypto.price, crypto.change);
       });
-      tickerEl.innerHTML = html;
+      
+      // Create scrolling ticker with duplicated content
+      const wrapper = document.createElement('div');
+      wrapper.className = 'tickerWrapper';
+      
+      const content1 = document.createElement('div');
+      content1.className = 'tickerContent';
+      content1.innerHTML = html;
+      
+      const content2 = document.createElement('div');
+      content2.className = 'tickerContentDuplicate';
+      content2.innerHTML = html; // Duplicate for seamless loop
+      
+      wrapper.appendChild(content1);
+      wrapper.appendChild(content2);
+      
+      tickerEl.innerHTML = '';
+      tickerEl.appendChild(wrapper);
       tickerEl.style.display = 'flex';
       
       // Then try to update with real data
