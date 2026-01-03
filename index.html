@@ -495,6 +495,359 @@
     @media (max-width: 640px){
       .heroSide{padding:18px 16px}
     }
+    
+    /* Space Animation Styles */
+    .heroAnimation{
+      padding:22px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:300px;
+      position:relative;
+      overflow:hidden;
+    }
+    @media (max-width: 640px){
+      .heroAnimation{padding:18px 16px;min-height:250px}
+    }
+    
+    .spaceAnimation{
+      width:100%;
+      height:100%;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    
+    /* Person */
+    .person{
+      position:absolute;
+      width:60px;
+      height:100px;
+      animation:putOnSuit 8s ease-in-out infinite;
+      z-index:3;
+    }
+    
+    .person .head{
+      width:30px;
+      height:30px;
+      background:linear-gradient(135deg, #ffdbac 0%, #f4c2a1 100%);
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      box-shadow:0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .person .body{
+      width:40px;
+      height:50px;
+      background:linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+      border-radius:8px;
+      position:absolute;
+      top:28px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    
+    .person .arm{
+      width:12px;
+      height:35px;
+      background:linear-gradient(135deg, #ffdbac 0%, #f4c2a1 100%);
+      border-radius:6px;
+      position:absolute;
+      top:32px;
+    }
+    
+    .person .arm.left{
+      left:8px;
+      transform-origin:top center;
+      animation:armMoveLeft 8s ease-in-out infinite;
+    }
+    
+    .person .arm.right{
+      right:8px;
+      transform-origin:top center;
+      animation:armMoveRight 8s ease-in-out infinite;
+    }
+    
+    .person .leg{
+      width:14px;
+      height:30px;
+      background:linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+      border-radius:7px;
+      position:absolute;
+      top:70px;
+    }
+    
+    .person .leg.left{left:18px}
+    .person .leg.right{right:18px}
+    
+    /* Space Suit */
+    .spaceSuit{
+      position:absolute;
+      width:60px;
+      height:100px;
+      opacity:0;
+      animation:putOnSuitAnimation 8s ease-in-out infinite;
+      z-index:2;
+    }
+    
+    .spaceSuit .suitHelmet{
+      width:40px;
+      height:40px;
+      background:linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
+      border-radius:50%;
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      border:3px solid #fff;
+      box-shadow:0 0 10px rgba(255,255,255,0.3);
+    }
+    
+    .spaceSuit .suitHelmet:before{
+      content:"";
+      position:absolute;
+      width:25px;
+      height:20px;
+      background:rgba(100,150,255,0.3);
+      border-radius:50%;
+      top:8px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    
+    .spaceSuit .suitBody{
+      width:50px;
+      height:60px;
+      background:linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+      border-radius:10px;
+      position:absolute;
+      top:35px;
+      left:50%;
+      transform:translateX(-50%);
+      border:2px solid #ccc;
+    }
+    
+    /* Rocket */
+    .rocket{
+      position:absolute;
+      width:80px;
+      height:120px;
+      opacity:0;
+      animation:rocketSequence 8s ease-in-out infinite;
+      z-index:1;
+    }
+    
+    .rocketBody{
+      width:50px;
+      height:100px;
+      background:linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      border-radius:25px 25px 5px 5px;
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      box-shadow:0 4px 8px rgba(0,0,0,0.3);
+    }
+    
+    .rocketWindow{
+      width:25px;
+      height:25px;
+      background:linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
+      border-radius:50%;
+      position:absolute;
+      top:15px;
+      left:50%;
+      transform:translateX(-50%);
+      border:3px solid #fff;
+    }
+    
+    .rocketFins{
+      position:absolute;
+      top:85px;
+      left:50%;
+      transform:translateX(-50%);
+      width:60px;
+      height:20px;
+    }
+    
+    .rocketFins .fin{
+      width:0;
+      height:0;
+      position:absolute;
+      top:0;
+    }
+    
+    .rocketFins .fin.left{
+      left:0;
+      border-left:15px solid transparent;
+      border-right:15px solid #ff6b6b;
+      border-top:20px solid transparent;
+      border-bottom:20px solid #ff6b6b;
+    }
+    
+    .rocketFins .fin.right{
+      right:0;
+      border-left:15px solid #ff6b6b;
+      border-right:15px solid transparent;
+      border-top:20px solid transparent;
+      border-bottom:20px solid #ff6b6b;
+    }
+    
+    .rocketFlame{
+      position:absolute;
+      top:100px;
+      left:50%;
+      transform:translateX(-50%);
+      width:30px;
+      height:20px;
+    }
+    
+    .rocketFlame .flame{
+      width:30px;
+      height:20px;
+      background:linear-gradient(180deg, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
+      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+      opacity:0;
+      animation:flameFlicker 0.3s ease-in-out infinite, flameAppear 8s ease-in-out infinite;
+    }
+    
+    @keyframes flameAppear{
+      0%, 30%{opacity:0}
+      30.1%, 100%{opacity:1}
+    }
+    
+    /* Animations */
+    @keyframes putOnSuit{
+      0%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+      20%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+      25%{
+        opacity:0;
+        transform:translateY(10px) scale(0.9);
+      }
+      25.1%, 100%{
+        opacity:0;
+        transform:translateY(10px) scale(0.9);
+      }
+    }
+    
+    @keyframes putOnSuitAnimation{
+      0%{
+        opacity:0;
+        transform:translateY(10px) scale(0.9);
+      }
+      5%{
+        opacity:0.5;
+        transform:translateY(5px) scale(0.95);
+      }
+      10%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+      25%{
+        opacity:1;
+        transform:translateY(0) scale(1);
+      }
+      30%{
+        opacity:0.8;
+        transform:translateY(-5px) scale(0.95);
+      }
+      35%, 100%{
+        opacity:0;
+        transform:translateY(-10px) scale(0.9);
+      }
+    }
+    
+    @keyframes armMoveLeft{
+      0%{
+        transform:rotate(0deg);
+      }
+      5%{
+        transform:rotate(-30deg);
+      }
+      10%{
+        transform:rotate(-45deg);
+      }
+      15%{
+        transform:rotate(-30deg);
+      }
+      20%, 100%{
+        transform:rotate(0deg);
+      }
+    }
+    
+    @keyframes armMoveRight{
+      0%{
+        transform:rotate(0deg);
+      }
+      8%{
+        transform:rotate(30deg);
+      }
+      12%{
+        transform:rotate(45deg);
+      }
+      18%{
+        transform:rotate(30deg);
+      }
+      20%, 100%{
+        transform:rotate(0deg);
+      }
+    }
+    
+    @keyframes rocketSequence{
+      0%, 25%{
+        opacity:0;
+        transform:translateY(30px) scale(0.6) rotate(0deg);
+      }
+      30%{
+        opacity:1;
+        transform:translateY(0) scale(1) rotate(0deg);
+      }
+      50%{
+        opacity:1;
+        transform:translateY(0) scale(1) rotate(0deg);
+      }
+      55%{
+        opacity:1;
+        transform:translateY(-50px) scale(0.95) rotate(-5deg);
+      }
+      65%{
+        opacity:1;
+        transform:translateY(-150px) scale(0.7) rotate(-10deg);
+      }
+      75%{
+        opacity:0.8;
+        transform:translateY(-300px) scale(0.4) rotate(-15deg);
+      }
+      85%{
+        opacity:0.5;
+        transform:translateY(-500px) scale(0.2) rotate(-20deg);
+      }
+      100%{
+        opacity:0;
+        transform:translateY(-800px) scale(0.05) rotate(-25deg);
+      }
+    }
+    
+    @keyframes flameFlicker{
+      0%, 100%{
+        transform:scaleY(1) scaleX(1);
+        opacity:0.9;
+      }
+      50%{
+        transform:scaleY(1.2) scaleX(0.9);
+        opacity:1;
+      }
+    }
     .miniTitle{font-size:12px;letter-spacing:.18em;color:rgba(232,238,252,.75);text-transform:uppercase}
     @media (max-width: 640px){
       .miniTitle{font-size:11px}
@@ -975,6 +1328,35 @@
           I build ambitious products across <b>AI</b>, <b>marketplaces</b>, and <b>smart infrastructure</b>.
           This site is interactive on purpose — explore what I’m building, how it works, and follow updates as I ship.
         </p>
+      </div>
+      
+      <div class="card heroAnimation">
+        <div class="spaceAnimation">
+          <div class="person" id="person">
+            <div class="head"></div>
+            <div class="body"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+          </div>
+          <div class="spaceSuit" id="spaceSuit">
+            <div class="suitHelmet"></div>
+            <div class="suitBody"></div>
+          </div>
+          <div class="rocket" id="rocket">
+            <div class="rocketBody">
+              <div class="rocketWindow"></div>
+            </div>
+            <div class="rocketFins">
+              <div class="fin left"></div>
+              <div class="fin right"></div>
+            </div>
+            <div class="rocketFlame">
+              <div class="flame"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
