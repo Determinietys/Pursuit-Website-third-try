@@ -588,16 +588,45 @@
       transform:rotate(15deg);
     }
     
-    .ninjaSword{
-      width:2px;
-      height:30px;
+    /* Nunchucks */
+    .nunchucks{
+      position:absolute;
+      top:20px;
+      left:50%;
+      transform:translateX(-50%);
+      width:60px;
+      height:20px;
+      opacity:0;
+    }
+    
+    .nunchuck{
+      width:12px;
+      height:12px;
+      background:#ffd700;
+      border-radius:50%;
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      box-shadow:0 0 8px rgba(255,215,0,0.6);
+    }
+    
+    .nunchuck.left{
+      left:0;
+    }
+    
+    .nunchuck.right{
+      right:0;
+    }
+    
+    .nunchuckChain{
+      width:36px;
+      height:2px;
       background:#ffd700;
       position:absolute;
-      top:15px;
-      right:calc(50% - 15px);
-      transform:rotate(45deg);
-      transform-origin:top center;
-      opacity:0;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      box-shadow:0 0 4px rgba(255,215,0,0.4);
     }
     
     /* Hero Ninja */
@@ -606,11 +635,23 @@
     }
     
     .heroNinja .ninjaArm.left{
-      animation:heroSwordSwing 0.3s ease-in-out infinite;
+      animation:heroNunchuckSwing 0.2s ease-in-out infinite;
     }
     
-    .heroNinja .ninjaSword{
-      animation:swordAppear 12s ease-in-out infinite;
+    .heroNinja .ninjaArm.right{
+      animation:heroNunchuckSwing 0.2s ease-in-out infinite 0.1s;
+    }
+    
+    .heroNinja .nunchucks{
+      animation:nunchucksAppear 12s ease-in-out infinite;
+    }
+    
+    .heroNinja .nunchuck.left{
+      animation:nunchuckSpin 0.3s linear infinite;
+    }
+    
+    .heroNinja .nunchuck.right{
+      animation:nunchuckSpin 0.3s linear infinite 0.15s;
     }
     
     /* Enemy Ninjas */
@@ -635,16 +676,27 @@
       background:#ff6b6b;
     }
     
+    .enemyNinja .ninjaArm.left{
+      animation:enemyArmSwing 0.4s ease-in-out infinite;
+    }
+    
+    .enemyNinja .ninjaArm.right{
+      animation:enemyArmSwing 0.4s ease-in-out infinite 0.2s;
+    }
+    
     /* Fence/Barrier */
     .fence{
       position:absolute;
-      width:200px;
+      width:0;
       height:3px;
       background:#fff;
       opacity:0;
       animation:fenceAppear 12s ease-in-out infinite;
       z-index:4;
       box-shadow:0 0 10px rgba(38,214,161,0.5);
+      left:50%;
+      top:50%;
+      transform:translate(-50%, -50%);
     }
     
     .fence:before,
@@ -655,10 +707,38 @@
       height:30px;
       background:#fff;
       top:-30px;
+      opacity:0;
+      animation:fencePolesAppear 12s ease-in-out infinite;
     }
     
-    .fence:before{left:20%}
-    .fence:after{right:20%}
+    .fence:before{
+      left:20%;
+    }
+    
+    .fence:after{
+      right:20%;
+    }
+    
+    /* World Message */
+    .worldMessage{
+      position:absolute;
+      top:50%;
+      left:50%;
+      transform:translate(-50%, -50%);
+      font-size:24px;
+      font-weight:bold;
+      color:#ffd700;
+      text-shadow:0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4);
+      letter-spacing:4px;
+      opacity:0;
+      z-index:10;
+      animation:worldMessageAppear 12s ease-in-out infinite;
+      font-family:var(--mono);
+    }
+    
+    @media (max-width: 640px){
+      .worldMessage{font-size:18px;letter-spacing:2px}
+    }
     
     /* Stick Figure Rocket */
     .stickRocket{
@@ -781,148 +861,232 @@
     @keyframes heroNinjaFight{
       0%, 35%{
         opacity:1;
-        transform:translate(0, 0) scale(1);
+        transform:translate(0, 0) scale(1) rotate(0deg);
+      }
+      30%, 35%{
+        opacity:1;
+        transform:translate(30px, -10px) scale(1) rotate(5deg);
       }
       35.1%, 40%{
-        opacity:0.8;
-        transform:translate(0, -10px) scale(0.95);
+        opacity:0.9;
+        transform:translate(60px, -20px) scale(0.95) rotate(0deg);
       }
-      40.1%, 100%{
+      40.1%, 45%{
+        opacity:0.7;
+        transform:translate(90px, -30px) scale(0.9) rotate(-5deg);
+      }
+      45.1%, 100%{
         opacity:0;
-        transform:translate(0, -20px) scale(0.9);
+        transform:translate(120px, -40px) scale(0.8) rotate(-10deg);
       }
     }
     
-    @keyframes heroSwordSwing{
+    @keyframes heroNunchuckSwing{
       0%, 100%{
-        transform:translateX(-50%) rotate(-30deg);
+        transform:translateX(-50%) rotate(-45deg);
+      }
+      25%{
+        transform:translateX(-50%) rotate(90deg);
       }
       50%{
-        transform:translateX(-50%) rotate(60deg);
+        transform:translateX(-50%) rotate(-45deg);
+      }
+      75%{
+        transform:translateX(-50%) rotate(90deg);
       }
     }
     
-    @keyframes swordAppear{
-      0%, 5%{opacity:0}
-      5.1%, 35%{opacity:1}
-      35.1%, 100%{opacity:0}
+    @keyframes nunchucksAppear{
+      0%, 2%{opacity:0; transform:translateX(-50%) scale(0.5)}
+      2.1%, 35%{opacity:1; transform:translateX(-50%) scale(1)}
+      35.1%, 100%{opacity:0; transform:translateX(-50%) scale(0.5)}
+    }
+    
+    @keyframes nunchuckSpin{
+      0%{transform:translateY(-50%) rotate(0deg)}
+      100%{transform:translateY(-50%) rotate(360deg)}
     }
     
     @keyframes enemyNinjaAttack{
       0%{
         opacity:0;
-        transform:translate(var(--x), var(--y)) scale(0.5);
+        transform:translate(var(--x), var(--y)) scale(0.3) rotate(0deg);
       }
-      5%{
+      3%{
+        opacity:0.7;
+        transform:translate(calc(var(--x) * 0.7), calc(var(--y) * 0.7)) scale(0.6) rotate(10deg);
+      }
+      6%{
         opacity:1;
-        transform:translate(calc(var(--x) * 0.5), calc(var(--y) * 0.5)) scale(0.8);
+        transform:translate(calc(var(--x) * 0.4), calc(var(--y) * 0.4)) scale(0.8) rotate(-10deg);
       }
-      10%, 30%{
+      10%, 25%{
         opacity:1;
-        transform:translate(0, 0) scale(1);
+        transform:translate(calc(var(--x) * 0.2), calc(var(--y) * 0.2)) scale(1) rotate(0deg);
       }
-      30.1%{
+      28%{
+        opacity:0.8;
+        transform:translate(calc(var(--x) * 0.1), calc(var(--y) * 0.1)) scale(0.9) rotate(15deg);
+      }
+      30%{
         opacity:0.5;
-        transform:translate(20px, 20px) scale(0.7);
+        transform:translate(30px, 30px) scale(0.7) rotate(30deg);
+      }
+      32%{
+        opacity:0.3;
+        transform:translate(50px, 50px) scale(0.5) rotate(45deg);
       }
       35%, 100%{
         opacity:0;
-        transform:translate(50px, 50px) scale(0.3);
+        transform:translate(80px, 80px) scale(0.2) rotate(60deg);
       }
+    }
+    
+    @keyframes enemyArmSwing{
+      0%, 100%{transform:rotate(0deg)}
+      50%{transform:rotate(45deg)}
     }
     
     @keyframes fenceAppear{
       0%, 30%{
         opacity:0;
-        transform:scaleX(0);
+        width:0;
+        transform:translate(-50%, -50%) scaleX(0);
+      }
+      32%{
+        opacity:0.5;
+        width:50px;
+        transform:translate(-50%, -50%) scaleX(0.3);
       }
       35%{
         opacity:1;
-        transform:scaleX(1);
+        width:200px;
+        transform:translate(-50%, -50%) scaleX(1);
       }
       40%, 45%{
         opacity:1;
-        transform:scaleX(1);
+        width:200px;
+        transform:translate(-50%, -50%) scaleX(1);
       }
       45.1%, 100%{
         opacity:0;
-        transform:scaleX(0);
+        width:0;
+        transform:translate(-50%, -50%) scaleX(0);
       }
+    }
+    
+    @keyframes fencePolesAppear{
+      0%, 30%{opacity:0}
+      35%, 45%{opacity:1}
+      45.1%, 100%{opacity:0}
+    }
+    
+    @keyframes worldMessageAppear{
+      0%, 48%{opacity:0; transform:translate(-50%, -50%) scale(0.5)}
+      50%{opacity:1; transform:translate(-50%, -50%) scale(1.2)}
+      52%{opacity:1; transform:translate(-50%, -50%) scale(1)}
+      55%{opacity:1; transform:translate(-50%, -50%) scale(1)}
+      58%{opacity:0.8; transform:translate(-50%, -50%) scale(0.9)}
+      60%, 100%{opacity:0; transform:translate(-50%, -50%) scale(0.5)}
     }
     
     @keyframes rocketSequence{
       0%, 40%{
         opacity:0;
-        transform:translateY(50px) scale(0.5) rotate(0deg);
+        transform:translate(0, 50px) scale(0.5) rotate(0deg);
+      }
+      42%{
+        opacity:0.5;
+        transform:translate(0, 30px) scale(0.7) rotate(0deg);
       }
       45%{
         opacity:1;
-        transform:translateY(0) scale(1) rotate(0deg);
+        transform:translate(0, 0) scale(1) rotate(0deg);
       }
-      50%, 60%{
+      48%{
         opacity:1;
-        transform:translateY(0) scale(1) rotate(0deg);
+        transform:translate(0, 0) scale(1) rotate(0deg);
+      }
+      50%{
+        opacity:1;
+        transform:translate(0, -20px) scale(1.05) rotate(-2deg);
+      }
+      55%{
+        opacity:1;
+        transform:translate(0, -60px) scale(1.1) rotate(-4deg);
+      }
+      60%{
+        opacity:1;
+        transform:translate(0, -120px) scale(1.15) rotate(-6deg);
       }
       65%{
         opacity:1;
-        transform:translateY(-30px) scale(1.05) rotate(-2deg);
+        transform:translate(0, -200px) scale(1.25) rotate(-8deg);
       }
       70%{
-        opacity:1;
-        transform:translateY(-80px) scale(1.1) rotate(-5deg);
+        opacity:0.9;
+        transform:translate(0, -320px) scale(1.4) rotate(-12deg);
       }
       75%{
-        opacity:1;
-        transform:translateY(-150px) scale(1.2) rotate(-8deg);
+        opacity:0.8;
+        transform:translate(0, -480px) scale(1.6) rotate(-18deg);
       }
       80%{
-        opacity:0.9;
-        transform:translateY(-250px) scale(1.3) rotate(-12deg);
+        opacity:0.6;
+        transform:translate(0, -680px) scale(1.9) rotate(-25deg);
       }
       85%{
-        opacity:0.7;
-        transform:translateY(-400px) scale(1.5) rotate(-18deg);
+        opacity:0.4;
+        transform:translate(0, -900px) scale(2.2) rotate(-30deg);
       }
       90%{
-        opacity:0.5;
-        transform:translateY(-600px) scale(1.8) rotate(-25deg);
+        opacity:0.2;
+        transform:translate(0, -1100px) scale(2.5) rotate(-35deg);
       }
       95%{
-        opacity:0.3;
-        transform:translateY(-800px) scale(2) rotate(-30deg);
+        opacity:0.1;
+        transform:translate(0, -1300px) scale(2.8) rotate(-40deg);
       }
       100%{
         opacity:0;
-        transform:translateY(-1000px) scale(2.5) rotate(-35deg);
+        transform:translate(0, -1500px) scale(3) rotate(-45deg);
       }
     }
     
     @keyframes ninjaOnRocket{
       0%, 50%{
         opacity:0;
-        transform:translate(calc(-50% + var(--offset)), -50%) scale(0.5);
+        transform:translate(calc(-50% + var(--offset)), calc(-50% + 100px)) scale(0.5);
       }
       50.1%{
         opacity:1;
-        transform:translate(calc(-50% + var(--offset)), -50%) scale(1);
+        transform:translate(calc(-50% + var(--offset)), calc(-50% + 80px)) scale(0.8);
+      }
+      52%{
+        opacity:1;
+        transform:translate(calc(-50% + var(--offset)), calc(-50% + 60px)) scale(1);
       }
       55%{
         opacity:1;
-        transform:translate(calc(-50% + var(--offset) + 5px), calc(-50% - 10px)) scale(1.1);
+        transform:translate(calc(-50% + var(--offset) + 3px), calc(-50% + 40px)) scale(1.05);
       }
       60%{
         opacity:1;
-        transform:translate(calc(-50% + var(--offset) + 10px), calc(-50% - 20px)) scale(1.2);
+        transform:translate(calc(-50% + var(--offset) + 6px), calc(-50% + 20px)) scale(1.1);
       }
       65%{
-        opacity:0.8;
-        transform:translate(calc(-50% + var(--offset) + 15px), calc(-50% - 40px)) scale(1.3);
+        opacity:0.9;
+        transform:translate(calc(-50% + var(--offset) + 10px), calc(-50% - 10px)) scale(1.2);
       }
       70%{
-        opacity:0.5;
-        transform:translate(calc(-50% + var(--offset) + 20px), calc(-50% - 80px)) scale(1.5);
+        opacity:0.7;
+        transform:translate(calc(-50% + var(--offset) + 15px), calc(-50% - 40px)) scale(1.4);
       }
-      75%, 100%{
+      75%{
+        opacity:0.4;
+        transform:translate(calc(-50% + var(--offset) + 20px), calc(-50% - 80px)) scale(1.7);
+      }
+      80%, 100%{
         opacity:0;
         transform:translate(calc(-50% + var(--offset) + 30px), calc(-50% - 150px)) scale(2);
       }
@@ -1430,11 +1594,15 @@
             <div class="ninjaArm right"></div>
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
-            <div class="ninjaSword"></div>
+            <div class="nunchucks">
+              <div class="nunchuck left"></div>
+              <div class="nunchuckChain"></div>
+              <div class="nunchuck right"></div>
+            </div>
           </div>
           
-          <!-- Enemy Ninja Legions -->
-          <div class="enemyNinja" style="--delay: 0s; --x: -80px; --y: 20px;">
+          <!-- Enemy Ninja Legions (10 enemies) -->
+          <div class="enemyNinja" style="--delay: 0s; --x: -100px; --y: 30px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1442,7 +1610,7 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
-          <div class="enemyNinja" style="--delay: 0.2s; --x: 80px; --y: -30px;">
+          <div class="enemyNinja" style="--delay: 0.15s; --x: 100px; --y: -40px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1450,7 +1618,7 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
-          <div class="enemyNinja" style="--delay: 0.4s; --x: -60px; --y: -50px;">
+          <div class="enemyNinja" style="--delay: 0.3s; --x: -80px; --y: -60px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1458,7 +1626,7 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
-          <div class="enemyNinja" style="--delay: 0.6s; --x: 100px; --y: 40px;">
+          <div class="enemyNinja" style="--delay: 0.45s; --x: 120px; --y: 50px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1466,7 +1634,7 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
-          <div class="enemyNinja" style="--delay: 0.8s; --x: -100px; --y: -20px;">
+          <div class="enemyNinja" style="--delay: 0.6s; --x: -120px; --y: -30px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1474,7 +1642,39 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
-          <div class="enemyNinja" style="--delay: 1s; --x: 60px; --y: 50px;">
+          <div class="enemyNinja" style="--delay: 0.75s; --x: 80px; --y: 60px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 0.9s; --x: -90px; --y: 40px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 1.05s; --x: 90px; --y: -50px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 1.2s; --x: -70px; --y: 70px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 1.35s; --x: 70px; --y: -70px;">
             <div class="ninjaHead"></div>
             <div class="ninjaBody"></div>
             <div class="ninjaArm left"></div>
@@ -1520,6 +1720,9 @@
             <div class="ninjaLeg left"></div>
             <div class="ninjaLeg right"></div>
           </div>
+          
+          <!-- Text Message -->
+          <div class="worldMessage" id="worldMessage">THE WORLD IS YOURS</div>
         </div>
       </div>
     </section>
