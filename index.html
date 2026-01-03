@@ -60,19 +60,16 @@
       margin:0 auto;
       padding:14px 18px;
       display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+      flex-direction:column;
+      gap:10px;
     }
-    @media (min-width: 1800px){
+    @media (min-width: 1200px){
       .navInner{
-        align-items:center;
-        flex-wrap:nowrap;
+        flex-direction:row;
+        align-items:flex-start;
+        justify-content:space-between;
+        flex-wrap:wrap;
       }
-    }
-    @media (max-width: 1400px){
-      .navInner{flex-wrap:wrap;gap:10px}
     }
     @media (max-width: 640px){
       .navInner{padding:12px 14px;gap:8px}
@@ -81,16 +78,14 @@
       display:flex;
       flex-direction:column;
       gap:8px;
-      flex:1 1 100%;
+      width:100%;
       min-width:0;
-      position:relative;
       order:1;
-      max-width:100%;
     }
-    @media (min-width: 1800px){
+    @media (min-width: 1200px){
       .brand{
         flex:0 1 auto;
-        max-width:600px;
+        max-width:500px;
       }
     }
     .brandContent{
@@ -145,18 +140,14 @@
       opacity:1;
       flex-wrap:wrap;
       overflow:hidden;
-      flex-shrink:1;
-      min-width:0;
       width:100%;
       justify-content:flex-start;
-      order:2;
-      max-width:100%;
+      box-sizing:border-box;
     }
-    @media (min-width: 1800px){
+    @media (min-width: 1200px){
       .brandTicker{
-        width:auto;
-        max-width:500px;
-        flex-shrink:0;
+        width:100%;
+        max-width:100%;
       }
     }
     @media (max-width: 1100px){
@@ -273,22 +264,18 @@
       border-radius:8px;
       background:rgba(15,23,38,.65);
       width:100%;
-      order:3;
       display:flex !important;
       align-items:center;
       gap:8px;
       overflow:hidden;
       visibility:visible;
       opacity:1;
-      flex-shrink:1;
-      min-width:0;
+      box-sizing:border-box;
     }
-    @media (min-width: 1800px){
+    @media (min-width: 1200px){
       .headlineBox{
-        width:auto;
-        flex:1 1 auto;
-        min-width:300px;
-        max-width:600px;
+        width:100%;
+        max-width:100%;
       }
     }
     .headlineLabel{
@@ -343,18 +330,16 @@
       display:flex;
       gap:8px;
       flex-wrap:wrap;
-      justify-content:flex-end;
-      flex:1 1 100%;
-      min-width:0;
-      order:4;
-      margin-top:8px;
+      justify-content:flex-start;
+      width:100%;
+      order:2;
     }
-    @media (min-width: 1800px){
+    @media (min-width: 1200px){
       .pillRow{
         flex:0 1 auto;
+        justify-content:flex-end;
         min-width:300px;
-        margin-top:0;
-        order:2;
+        width:auto;
       }
     }
     @media (max-width: 640px){
