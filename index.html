@@ -353,24 +353,10 @@
       color:var(--text);
     }
     .pillRow{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      width:100%;
-      order:4;
+      display:none !important;
     }
-    @media (min-width: 1200px){
-      .pillRow{
-        flex:0 1 auto;
-        justify-content:flex-end;
-        min-width:300px;
-        width:auto;
-        order:3;
-      }
-    }
-    @media (max-width: 640px){
-      .pillRow{gap:6px;margin-top:6px}
+    .pill{
+      display:none !important;
     }
     .pill{
       padding:9px 12px;border-radius:999px;
@@ -967,10 +953,6 @@
           <span class="headlineText" id="headlineText">Loading headline...</span>
         </a>
       </div>
-      <div class="pillRow">
-        <a class="pill" href="#projects">Projects</a>
-        <a class="pill primary" href="#contact">Contact</a>
-      </div>
     </div>
   </div>
 
@@ -1147,8 +1129,6 @@
     <div class="footer">
       <div>© <span id="year"></span> Rafy Blu • Built as a single-file interactive portfolio</div>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="mutedLink" href="#projects">Projects</a>
-        <a class="mutedLink" href="#contact">Contact</a>
       </div>
     </div>
   </div>
