@@ -496,7 +496,7 @@
       .heroSide{padding:18px 16px}
     }
     
-    /* Space Animation Styles */
+    /* Ninja Animation Styles */
     .heroAnimation{
       padding:22px;
       display:flex;
@@ -505,12 +505,13 @@
       min-height:300px;
       position:relative;
       overflow:hidden;
+      background:radial-gradient(circle at center, rgba(15,23,38,0.8) 0%, rgba(15,23,38,0.95) 100%);
     }
     @media (max-width: 640px){
       .heroAnimation{padding:18px 16px;min-height:250px}
     }
     
-    .spaceAnimation{
+    .ninjaAnimation{
       width:100%;
       height:100%;
       position:relative;
@@ -519,332 +520,421 @@
       justify-content:center;
     }
     
-    /* Person */
-    .person{
+    /* Stick Figure Ninja */
+    .ninja{
+      position:absolute;
+      width:40px;
+      height:80px;
+      z-index:5;
+    }
+    
+    .ninjaHead{
+      width:20px;
+      height:20px;
+      border:2px solid #fff;
+      border-radius:50%;
+      position:absolute;
+      top:0;
+      left:50%;
+      transform:translateX(-50%);
+      background:transparent;
+    }
+    
+    .ninjaBody{
+      width:2px;
+      height:25px;
+      background:#fff;
+      position:absolute;
+      top:18px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+    
+    .ninjaArm{
+      width:2px;
+      height:20px;
+      background:#fff;
+      position:absolute;
+      top:20px;
+      transform-origin:top center;
+    }
+    
+    .ninjaArm.left{
+      left:50%;
+      transform:translateX(-50%) rotate(-30deg);
+    }
+    
+    .ninjaArm.right{
+      right:50%;
+      transform:translateX(50%) rotate(30deg);
+    }
+    
+    .ninjaLeg{
+      width:2px;
+      height:25px;
+      background:#fff;
+      position:absolute;
+      top:42px;
+      transform-origin:top center;
+    }
+    
+    .ninjaLeg.left{
+      left:calc(50% - 5px);
+      transform:rotate(-15deg);
+    }
+    
+    .ninjaLeg.right{
+      right:calc(50% - 5px);
+      transform:rotate(15deg);
+    }
+    
+    .ninjaSword{
+      width:2px;
+      height:30px;
+      background:#ffd700;
+      position:absolute;
+      top:15px;
+      right:calc(50% - 15px);
+      transform:rotate(45deg);
+      transform-origin:top center;
+      opacity:0;
+    }
+    
+    /* Hero Ninja */
+    .heroNinja{
+      animation:heroNinjaFight 12s ease-in-out infinite;
+    }
+    
+    .heroNinja .ninjaArm.left{
+      animation:heroSwordSwing 0.3s ease-in-out infinite;
+    }
+    
+    .heroNinja .ninjaSword{
+      animation:swordAppear 12s ease-in-out infinite;
+    }
+    
+    /* Enemy Ninjas */
+    .enemyNinja{
+      position:absolute;
+      width:30px;
+      height:60px;
+      opacity:0;
+      animation:enemyNinjaAttack 12s ease-in-out infinite;
+      animation-delay:var(--delay);
+    }
+    
+    .enemyNinja .ninjaHead{
+      width:15px;
+      height:15px;
+      border-color:#ff6b6b;
+    }
+    
+    .enemyNinja .ninjaBody,
+    .enemyNinja .ninjaArm,
+    .enemyNinja .ninjaLeg{
+      background:#ff6b6b;
+    }
+    
+    /* Fence/Barrier */
+    .fence{
+      position:absolute;
+      width:200px;
+      height:3px;
+      background:#fff;
+      opacity:0;
+      animation:fenceAppear 12s ease-in-out infinite;
+      z-index:4;
+      box-shadow:0 0 10px rgba(38,214,161,0.5);
+    }
+    
+    .fence:before,
+    .fence:after{
+      content:"";
+      position:absolute;
+      width:3px;
+      height:30px;
+      background:#fff;
+      top:-30px;
+    }
+    
+    .fence:before{left:20%}
+    .fence:after{right:20%}
+    
+    /* Stick Figure Rocket */
+    .stickRocket{
       position:absolute;
       width:60px;
       height:100px;
-      animation:putOnSuit 8s ease-in-out infinite;
+      opacity:0;
+      animation:rocketSequence 12s ease-in-out infinite;
       z-index:3;
     }
     
-    .person .head{
-      width:30px;
-      height:30px;
-      background:linear-gradient(135deg, #ffdbac 0%, #f4c2a1 100%);
-      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    .rocketLine{
+      background:#fff;
       position:absolute;
-      top:0;
-      left:50%;
-      transform:translateX(-50%);
-      box-shadow:0 2px 4px rgba(0,0,0,0.2);
     }
     
-    .person .body{
-      width:40px;
-      height:50px;
-      background:linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-      border-radius:8px;
-      position:absolute;
-      top:28px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-    
-    .person .arm{
-      width:12px;
-      height:35px;
-      background:linear-gradient(135deg, #ffdbac 0%, #f4c2a1 100%);
-      border-radius:6px;
-      position:absolute;
-      top:32px;
-    }
-    
-    .person .arm.left{
-      left:8px;
-      transform-origin:top center;
-      animation:armMoveLeft 8s ease-in-out infinite;
-    }
-    
-    .person .arm.right{
-      right:8px;
-      transform-origin:top center;
-      animation:armMoveRight 8s ease-in-out infinite;
-    }
-    
-    .person .leg{
-      width:14px;
-      height:30px;
-      background:linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
-      border-radius:7px;
-      position:absolute;
-      top:70px;
-    }
-    
-    .person .leg.left{left:18px}
-    .person .leg.right{right:18px}
-    
-    /* Space Suit */
-    .spaceSuit{
-      position:absolute;
-      width:60px;
-      height:100px;
-      opacity:0;
-      animation:putOnSuitAnimation 8s ease-in-out infinite;
-      z-index:2;
-    }
-    
-    .spaceSuit .suitHelmet{
-      width:40px;
-      height:40px;
-      background:linear-gradient(135deg, #e8e8e8 0%, #c0c0c0 100%);
-      border-radius:50%;
-      position:absolute;
-      top:0;
-      left:50%;
-      transform:translateX(-50%);
-      border:3px solid #fff;
-      box-shadow:0 0 10px rgba(255,255,255,0.3);
-    }
-    
-    .spaceSuit .suitHelmet:before{
-      content:"";
-      position:absolute;
-      width:25px;
-      height:20px;
-      background:rgba(100,150,255,0.3);
-      border-radius:50%;
-      top:8px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-    
-    .spaceSuit .suitBody{
-      width:50px;
+    .rocketLine.body{
+      width:3px;
       height:60px;
-      background:linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-      border-radius:10px;
-      position:absolute;
-      top:35px;
-      left:50%;
-      transform:translateX(-50%);
-      border:2px solid #ccc;
-    }
-    
-    /* Rocket */
-    .rocket{
-      position:absolute;
-      width:80px;
-      height:120px;
-      opacity:0;
-      animation:rocketSequence 8s ease-in-out infinite;
-      z-index:1;
-    }
-    
-    .rocketBody{
-      width:50px;
-      height:100px;
-      background:linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-      border-radius:25px 25px 5px 5px;
-      position:absolute;
       top:0;
       left:50%;
       transform:translateX(-50%);
-      box-shadow:0 4px 8px rgba(0,0,0,0.3);
     }
     
-    .rocketWindow{
-      width:25px;
-      height:25px;
-      background:linear-gradient(135deg, #87ceeb 0%, #4682b4 100%);
-      border-radius:50%;
-      position:absolute;
-      top:15px;
-      left:50%;
-      transform:translateX(-50%);
-      border:3px solid #fff;
-    }
-    
-    .rocketFins{
-      position:absolute;
-      top:85px;
-      left:50%;
-      transform:translateX(-50%);
-      width:60px;
-      height:20px;
-    }
-    
-    .rocketFins .fin{
+    .rocketLine.nose{
       width:0;
       height:0;
-      position:absolute;
-      top:0;
-    }
-    
-    .rocketFins .fin.left{
-      left:0;
-      border-left:15px solid transparent;
-      border-right:15px solid #ff6b6b;
-      border-top:20px solid transparent;
-      border-bottom:20px solid #ff6b6b;
-    }
-    
-    .rocketFins .fin.right{
-      right:0;
-      border-left:15px solid #ff6b6b;
-      border-right:15px solid transparent;
-      border-top:20px solid transparent;
-      border-bottom:20px solid #ff6b6b;
-    }
-    
-    .rocketFlame{
-      position:absolute;
-      top:100px;
+      border-left:8px solid transparent;
+      border-right:8px solid transparent;
+      border-bottom:15px solid #fff;
+      top:-15px;
       left:50%;
       transform:translateX(-50%);
-      width:30px;
-      height:20px;
     }
     
-    .rocketFlame .flame{
-      width:30px;
-      height:20px;
-      background:linear-gradient(180deg, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
-      border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    .rocketLine.finLeft{
+      width:0;
+      height:0;
+      border-left:12px solid transparent;
+      border-right:12px solid #fff;
+      border-top:15px solid transparent;
+      border-bottom:15px solid #fff;
+      top:45px;
+      left:calc(50% - 15px);
+    }
+    
+    .rocketLine.finRight{
+      width:0;
+      height:0;
+      border-left:12px solid #fff;
+      border-right:12px solid transparent;
+      border-top:15px solid transparent;
+      border-bottom:15px solid #fff;
+      top:45px;
+      right:calc(50% - 15px);
+    }
+    
+    .rocketFlameLine{
+      width:4px;
+      height:25px;
+      background:linear-gradient(180deg, #ffd700 0%, #ff4500 100%);
+      position:absolute;
+      top:60px;
+      left:50%;
+      transform:translateX(-50%);
       opacity:0;
-      animation:flameFlicker 0.3s ease-in-out infinite, flameAppear 8s ease-in-out infinite;
+      animation:flameFlicker 0.2s ease-in-out infinite, flameAppear 12s ease-in-out infinite;
+      border-radius:2px;
+    }
+    
+    /* Ninjas on Rocket */
+    .ninjaOnRocket{
+      position:absolute;
+      width:20px;
+      height:40px;
+      opacity:0;
+      animation:ninjaOnRocket 12s ease-in-out infinite;
+      animation-delay:var(--delay);
+      z-index:4;
+      left:50%;
+      top:50%;
+      transform:translate(-50%, -50%);
+    }
+    
+    .ninjaOnRocket .ninjaHead{
+      width:10px;
+      height:10px;
+      border-color:#ff6b6b;
+    }
+    
+    .ninjaOnRocket .ninjaBody,
+    .ninjaOnRocket .ninjaArm,
+    .ninjaOnRocket .ninjaLeg{
+      background:#ff6b6b;
+      width:1.5px;
+    }
+    
+    .ninjaOnRocket .ninjaArm.left{
+      left:calc(50% - 3px);
+    }
+    
+    .ninjaOnRocket .ninjaArm.right{
+      right:calc(50% - 3px);
+    }
+    
+    .ninjaOnRocket .ninjaLeg.left{
+      left:calc(50% - 4px);
+    }
+    
+    .ninjaOnRocket .ninjaLeg.right{
+      right:calc(50% - 4px);
     }
     
     @keyframes flameAppear{
-      0%, 30%{opacity:0}
-      30.1%, 100%{opacity:1}
+      0%, 45%{opacity:0}
+      45.1%, 100%{opacity:1}
     }
     
-    /* Animations */
-    @keyframes putOnSuit{
-      0%{
+    /* Ninja Animation Keyframes */
+    @keyframes heroNinjaFight{
+      0%, 35%{
         opacity:1;
-        transform:translateY(0) scale(1);
+        transform:translate(0, 0) scale(1);
       }
-      20%{
-        opacity:1;
-        transform:translateY(0) scale(1);
+      35.1%, 40%{
+        opacity:0.8;
+        transform:translate(0, -10px) scale(0.95);
       }
-      25%{
+      40.1%, 100%{
         opacity:0;
-        transform:translateY(10px) scale(0.9);
-      }
-      25.1%, 100%{
-        opacity:0;
-        transform:translateY(10px) scale(0.9);
+        transform:translate(0, -20px) scale(0.9);
       }
     }
     
-    @keyframes putOnSuitAnimation{
+    @keyframes heroSwordSwing{
+      0%, 100%{
+        transform:translateX(-50%) rotate(-30deg);
+      }
+      50%{
+        transform:translateX(-50%) rotate(60deg);
+      }
+    }
+    
+    @keyframes swordAppear{
+      0%, 5%{opacity:0}
+      5.1%, 35%{opacity:1}
+      35.1%, 100%{opacity:0}
+    }
+    
+    @keyframes enemyNinjaAttack{
       0%{
         opacity:0;
-        transform:translateY(10px) scale(0.9);
+        transform:translate(var(--x), var(--y)) scale(0.5);
       }
       5%{
+        opacity:1;
+        transform:translate(calc(var(--x) * 0.5), calc(var(--y) * 0.5)) scale(0.8);
+      }
+      10%, 30%{
+        opacity:1;
+        transform:translate(0, 0) scale(1);
+      }
+      30.1%{
         opacity:0.5;
-        transform:translateY(5px) scale(0.95);
-      }
-      10%{
-        opacity:1;
-        transform:translateY(0) scale(1);
-      }
-      25%{
-        opacity:1;
-        transform:translateY(0) scale(1);
-      }
-      30%{
-        opacity:0.8;
-        transform:translateY(-5px) scale(0.95);
+        transform:translate(20px, 20px) scale(0.7);
       }
       35%, 100%{
         opacity:0;
-        transform:translateY(-10px) scale(0.9);
+        transform:translate(50px, 50px) scale(0.3);
       }
     }
     
-    @keyframes armMoveLeft{
-      0%{
-        transform:rotate(0deg);
+    @keyframes fenceAppear{
+      0%, 30%{
+        opacity:0;
+        transform:scaleX(0);
       }
-      5%{
-        transform:rotate(-30deg);
+      35%{
+        opacity:1;
+        transform:scaleX(1);
       }
-      10%{
-        transform:rotate(-45deg);
+      40%, 45%{
+        opacity:1;
+        transform:scaleX(1);
       }
-      15%{
-        transform:rotate(-30deg);
-      }
-      20%, 100%{
-        transform:rotate(0deg);
-      }
-    }
-    
-    @keyframes armMoveRight{
-      0%{
-        transform:rotate(0deg);
-      }
-      8%{
-        transform:rotate(30deg);
-      }
-      12%{
-        transform:rotate(45deg);
-      }
-      18%{
-        transform:rotate(30deg);
-      }
-      20%, 100%{
-        transform:rotate(0deg);
+      45.1%, 100%{
+        opacity:0;
+        transform:scaleX(0);
       }
     }
     
     @keyframes rocketSequence{
-      0%, 25%{
+      0%, 40%{
         opacity:0;
-        transform:translateY(30px) scale(0.6) rotate(0deg);
+        transform:translateY(50px) scale(0.5) rotate(0deg);
       }
-      30%{
+      45%{
         opacity:1;
         transform:translateY(0) scale(1) rotate(0deg);
       }
-      50%{
+      50%, 60%{
         opacity:1;
         transform:translateY(0) scale(1) rotate(0deg);
-      }
-      55%{
-        opacity:1;
-        transform:translateY(-50px) scale(0.95) rotate(-5deg);
       }
       65%{
         opacity:1;
-        transform:translateY(-150px) scale(0.7) rotate(-10deg);
+        transform:translateY(-30px) scale(1.05) rotate(-2deg);
+      }
+      70%{
+        opacity:1;
+        transform:translateY(-80px) scale(1.1) rotate(-5deg);
       }
       75%{
-        opacity:0.8;
-        transform:translateY(-300px) scale(0.4) rotate(-15deg);
+        opacity:1;
+        transform:translateY(-150px) scale(1.2) rotate(-8deg);
+      }
+      80%{
+        opacity:0.9;
+        transform:translateY(-250px) scale(1.3) rotate(-12deg);
       }
       85%{
+        opacity:0.7;
+        transform:translateY(-400px) scale(1.5) rotate(-18deg);
+      }
+      90%{
         opacity:0.5;
-        transform:translateY(-500px) scale(0.2) rotate(-20deg);
+        transform:translateY(-600px) scale(1.8) rotate(-25deg);
+      }
+      95%{
+        opacity:0.3;
+        transform:translateY(-800px) scale(2) rotate(-30deg);
       }
       100%{
         opacity:0;
-        transform:translateY(-800px) scale(0.05) rotate(-25deg);
+        transform:translateY(-1000px) scale(2.5) rotate(-35deg);
+      }
+    }
+    
+    @keyframes ninjaOnRocket{
+      0%, 50%{
+        opacity:0;
+        transform:translate(calc(-50% + var(--offset)), -50%) scale(0.5);
+      }
+      50.1%{
+        opacity:1;
+        transform:translate(calc(-50% + var(--offset)), -50%) scale(1);
+      }
+      55%{
+        opacity:1;
+        transform:translate(calc(-50% + var(--offset) + 5px), calc(-50% - 10px)) scale(1.1);
+      }
+      60%{
+        opacity:1;
+        transform:translate(calc(-50% + var(--offset) + 10px), calc(-50% - 20px)) scale(1.2);
+      }
+      65%{
+        opacity:0.8;
+        transform:translate(calc(-50% + var(--offset) + 15px), calc(-50% - 40px)) scale(1.3);
+      }
+      70%{
+        opacity:0.5;
+        transform:translate(calc(-50% + var(--offset) + 20px), calc(-50% - 80px)) scale(1.5);
+      }
+      75%, 100%{
+        opacity:0;
+        transform:translate(calc(-50% + var(--offset) + 30px), calc(-50% - 150px)) scale(2);
       }
     }
     
     @keyframes flameFlicker{
       0%, 100%{
-        transform:scaleY(1) scaleX(1);
+        transform:translateX(-50%) scaleY(1) scaleX(1);
         opacity:0.9;
       }
       50%{
-        transform:scaleY(1.2) scaleX(0.9);
+        transform:translateX(-50%) scaleY(1.3) scaleX(0.8);
         opacity:1;
       }
     }
@@ -1331,30 +1421,104 @@
       </div>
       
       <div class="card heroAnimation">
-        <div class="spaceAnimation">
-          <div class="person" id="person">
-            <div class="head"></div>
-            <div class="body"></div>
-            <div class="arm left"></div>
-            <div class="arm right"></div>
-            <div class="leg left"></div>
-            <div class="leg right"></div>
+        <div class="ninjaAnimation">
+          <!-- Hero Ninja -->
+          <div class="ninja heroNinja" id="heroNinja">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+            <div class="ninjaSword"></div>
           </div>
-          <div class="spaceSuit" id="spaceSuit">
-            <div class="suitHelmet"></div>
-            <div class="suitBody"></div>
+          
+          <!-- Enemy Ninja Legions -->
+          <div class="enemyNinja" style="--delay: 0s; --x: -80px; --y: 20px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
           </div>
-          <div class="rocket" id="rocket">
-            <div class="rocketBody">
-              <div class="rocketWindow"></div>
-            </div>
-            <div class="rocketFins">
-              <div class="fin left"></div>
-              <div class="fin right"></div>
-            </div>
-            <div class="rocketFlame">
-              <div class="flame"></div>
-            </div>
+          <div class="enemyNinja" style="--delay: 0.2s; --x: 80px; --y: -30px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 0.4s; --x: -60px; --y: -50px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 0.6s; --x: 100px; --y: 40px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 0.8s; --x: -100px; --y: -20px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="enemyNinja" style="--delay: 1s; --x: 60px; --y: 50px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          
+          <!-- Fence/Barrier -->
+          <div class="fence" id="fence"></div>
+          
+          <!-- Rocket Ship -->
+          <div class="stickRocket" id="stickRocket">
+            <div class="rocketLine body"></div>
+            <div class="rocketLine nose"></div>
+            <div class="rocketLine finLeft"></div>
+            <div class="rocketLine finRight"></div>
+            <div class="rocketFlameLine"></div>
+          </div>
+          
+          <!-- Ninjas on Rocket -->
+          <div class="ninjaOnRocket" style="--delay: 0s; --offset: -15px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="ninjaOnRocket" style="--delay: 0.1s; --offset: 0px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
+          </div>
+          <div class="ninjaOnRocket" style="--delay: 0.2s; --offset: 15px;">
+            <div class="ninjaHead"></div>
+            <div class="ninjaBody"></div>
+            <div class="ninjaArm left"></div>
+            <div class="ninjaArm right"></div>
+            <div class="ninjaLeg left"></div>
+            <div class="ninjaLeg right"></div>
           </div>
         </div>
       </div>
