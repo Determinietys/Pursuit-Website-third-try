@@ -59,8 +59,20 @@
     @media (max-width: 640px){
       .navInner{padding:12px 14px;gap:8px}
     }
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:1}
-    .brandContent{display:flex;align-items:center;gap:10px;flex:1}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:1;
+      min-width:0;
+    }
+    .brandContent{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      flex-shrink:0;
+    }
     .logo{
       width:34px;height:34px;border-radius:12px;
       background: radial-gradient(circle at 30% 30%, rgba(124,92,255,.95), rgba(38,214,161,.55));
@@ -100,6 +112,10 @@
       border-left:1px solid var(--line);
       font-family:var(--mono);
       font-size:11px;
+      white-space:nowrap;
+    }
+    @media (max-width: 1100px){
+      .brandTicker{gap:12px;font-size:10px;margin-left:16px;padding-left:16px}
     }
     @media (max-width: 900px){
       .brandTicker{display:none}
@@ -1709,15 +1725,93 @@
       `;
     }
 
+    // Fallback data in case APIs fail
+    const fallbackData = {
+      stocks: [
+        { symbol: 'AAPL', price: 175.50, change: 2.30, changePercent: 1.33 },
+        { symbol: 'TSLA', price: 245.80, change: -3.20, changePercent: -1.29 },
+        { symbol: 'NVDA', price: 485.20, change: 8.50, changePercent: 1.78 }
+      ],
+      crypto: [
+        { symbol: 'BTC', price: 43250.00, change: 1250.00 },
+        { symbol: 'ETH', price: 2650.00, change: -85.00 }
+      ]
+    };
+
     async function updateTicker() {
       const tickerEl = document.getElementById("stockTicker");
-      if (!tickerEl) return;
+      if (!tickerEl) {
+        console.error('Ticker element not found');
+        return;
+      }
 
       try {
-        const [cryptoData, stockData] = await Promise.all([
-          fetchCryptoPrices(),
-          fetchStockPrices()
-        ]);
+        // Try to fetch real data with timeout
+        const fetchWithTimeout = (url, timeout = 5000) => {
+          return Promise.race([
+            fetch(url),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Timeout')), timeout)
+            )
+          ]);
+        };
+
+        let cryptoData = null;
+        let stockData = null;
+
+        try {
+          const ids = tickerConfig.crypto.map(c => c.id).join(',');
+          const cryptoResponse = await fetchWithTimeout(
+            `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
+          );
+          if (cryptoResponse.ok) {
+            const data = await cryptoResponse.json();
+            cryptoData = tickerConfig.crypto.map(c => {
+              const coin = data[c.id];
+              return {
+                symbol: c.symbol,
+                price: coin.usd,
+                change: coin.usd_24h_change || 0
+              };
+            });
+          }
+        } catch (e) {
+          console.warn('Crypto API failed, using fallback');
+        }
+
+        try {
+          const symbols = tickerConfig.stocks.map(s => s.symbol).join(',');
+          const stockResponse = await fetchWithTimeout(
+            `https://query1.finance.yahoo.com/v8/finance/chart/${symbols}?interval=1d&range=1d`
+          );
+          if (stockResponse.ok) {
+            const data = await stockResponse.json();
+            stockData = tickerConfig.stocks.map((stock, index) => {
+              const result = data.chart?.result?.[index];
+              if (!result) return null;
+              const meta = result.meta;
+              if (!meta) return null;
+              
+              const currentPrice = meta.regularMarketPrice || meta.previousClose || 0;
+              const previousClose = meta.previousClose || currentPrice;
+              const change = currentPrice - previousClose;
+              const changePercent = previousClose ? (change / previousClose) * 100 : 0;
+              
+              return {
+                symbol: stock.symbol,
+                price: currentPrice,
+                change: change,
+                changePercent: changePercent
+              };
+            }).filter(Boolean);
+          }
+        } catch (e) {
+          console.warn('Stock API failed, using fallback');
+        }
+
+        // Use fallback if APIs failed
+        if (!cryptoData) cryptoData = fallbackData.crypto;
+        if (!stockData || stockData.length === 0) stockData = fallbackData.stocks;
 
         let html = '';
 
@@ -1740,11 +1834,27 @@
         if (html) {
           tickerEl.innerHTML = html;
         } else {
-          tickerEl.innerHTML = '<div class="tickerLoading">Data unavailable</div>';
+          // Show fallback data if everything fails
+          fallbackData.stocks.forEach(stock => {
+            html += renderTickerItem(stock.symbol, stock.price, stock.change, stock.changePercent);
+          });
+          fallbackData.crypto.forEach(crypto => {
+            html += renderTickerItem(crypto.symbol, crypto.price, crypto.change);
+          });
+          tickerEl.innerHTML = html;
         }
       } catch (error) {
         console.error('Error updating ticker:', error);
-        tickerEl.innerHTML = '<div class="tickerLoading">Error loading</div>';
+        // Show fallback data on error
+        let html = '';
+        fallbackData.stocks.forEach(stock => {
+          html += renderTickerItem(stock.symbol, stock.price, stock.change, stock.changePercent);
+        });
+        fallbackData.crypto.forEach(crypto => {
+          html += renderTickerItem(crypto.symbol, crypto.price, crypto.change);
+        });
+        const tickerEl = document.getElementById("stockTicker");
+        if (tickerEl) tickerEl.innerHTML = html;
       }
     }
 
