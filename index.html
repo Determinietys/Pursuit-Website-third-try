@@ -638,9 +638,6 @@
     @media (max-width: 1024px){
       .grid{grid-template-columns: repeat(2, 1fr);gap:10px}
     }
-    @media (max-width: 768px){
-      #readingGrid{grid-template-columns: 1fr !important}
-    }
     @media (max-width: 640px){
       .grid{grid-template-columns: 1fr;gap:10px}
     }
@@ -1077,27 +1074,27 @@
       <div class="sectionHead">
         <div>
           <h2>Currently Reading</h2>
-          <p>Books I'm reading and top newsletters I follow.</p>
+          <p>What I'm learning and where to find my thoughts.</p>
         </div>
       </div>
 
-      <div class="grid" id="readingGrid" style="grid-template-columns: repeat(3, 1fr);gap:12px">
+      <div class="twoCol">
         <div class="panel">
-          <h3>📚 Books</h3>
-          <div style="display:grid;gap:10px;margin-top:10px">
+          <h3>📚 Currently Reading</h3>
+          <div style="display:grid;gap:12px;margin-top:12px">
             <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
-              <p style="margin:0;font-weight:600;color:var(--text);font-size:13px">
+              <p style="margin:0;font-weight:600;color:var(--text)">
                 Superagency: What Could Possibly Go Right with Our AI Future
               </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size:12px">
+              <p style="margin:6px 0 0;color:var(--muted);font-size:12.5px">
                 Exploring the potential and challenges of AI's impact on our future.
               </p>
             </div>
             <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
-              <p style="margin:0;font-weight:600;color:var(--text);font-size:13px">
+              <p style="margin:0;font-weight:600;color:var(--text)">
                 How To Think About AI: A Guide For The Perplexed
               </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size:12px">
+              <p style="margin:6px 0 0;color:var(--muted);font-size:12.5px">
                 By Susskind, Richard • Hardback
               </p>
             </div>
@@ -1105,24 +1102,21 @@
         </div>
 
         <div class="panel">
-          <h3>📰 Top Newsletters</h3>
-          <div id="newsletters" style="display:grid;gap:10px;margin-top:10px">
-            <div class="tickerLoading">Loading newsletters...</div>
-          </div>
-        </div>
-
-        <div class="panel">
-          <h3>📖 Reading List</h3>
+          <h3>📬 Newsletter & Links</h3>
           <div style="display:grid;gap:10px;margin-top:10px">
-            <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
-              <p style="margin:0;font-weight:600;color:var(--text);font-size:13px">
-                My Reading List
-              </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size:12px">
-                Curated collection of books I plan to read next.
-              </p>
-            </div>
+            <a class="btn" href="#" onclick="toast('Add your newsletter link');return false;" target="_blank" rel="noopener noreferrer">
+              Subscribe to Newsletter
+            </a>
+            <a class="btn btnSoft" href="#" onclick="toast('Add your blog link');return false;" target="_blank" rel="noopener noreferrer">
+              Read My Blog
+            </a>
+            <a class="btn" href="#" onclick="toast('Add your reading list link');return false;" target="_blank" rel="noopener noreferrer">
+              View Reading List
+            </a>
           </div>
+          <p style="margin-top:12px;color:var(--muted);font-size:12.5px">
+            Replace these links with your actual newsletter, blog, or reading list URLs.
+          </p>
         </div>
       </div>
     </section>
@@ -2235,145 +2229,6 @@
       setInterval(fetchHeadlineAlternative, 1800000);
     }
 
-    // ---------------------------
-    // Top Newsletters
-    // ---------------------------
-    const topNewsletters = [
-      {
-        name: "The New York Times",
-        rss: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-        url: "https://www.nytimes.com/newsletters",
-        description: "Breaking news and analysis"
-      },
-      {
-        name: "The Wall Street Journal",
-        rss: "https://feeds.a.dj.com/rss/RSSWorldNews.xml",
-        url: "https://www.wsj.com/newsletters",
-        description: "Business and financial news"
-      },
-      {
-        name: "Morning Brew",
-        rss: "https://www.morningbrew.com/emergence/rss.xml",
-        url: "https://www.morningbrew.com/daily",
-        description: "Daily business newsletter"
-      }
-    ];
-
-    const fallbackNewsletters = [
-      { name: "The New York Times", title: "Latest breaking news and analysis", url: "https://www.nytimes.com/newsletters" },
-      { name: "The Wall Street Journal", title: "Business and financial updates", url: "https://www.wsj.com/newsletters" },
-      { name: "Morning Brew", title: "Daily business insights and trends", url: "https://www.morningbrew.com/daily" }
-    ];
-
-    async function fetchNewsletterHeadline(newsletter) {
-      try {
-        const proxyUrl = 'https://api.allorigins.win/get?url=';
-        const rssUrl = encodeURIComponent(newsletter.rss);
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 4000);
-        
-        const response = await fetch(proxyUrl + rssUrl, { 
-          signal: controller.signal 
-        }).catch(() => {
-          clearTimeout(timeoutId);
-          return null;
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (response && response.ok) {
-          const data = await response.json();
-          if (data.contents) {
-            const parser = new DOMParser();
-            const xml = parser.parseFromString(data.contents, 'text/xml');
-            const items = xml.querySelectorAll('item');
-            
-            if (items.length > 0) {
-              const firstItem = items[0];
-              const title = firstItem.querySelector('title')?.textContent || '';
-              return title.length > 80 ? title.substring(0, 80) + '...' : title;
-            }
-          }
-        }
-      } catch (error) {
-        console.warn(`Failed to fetch ${newsletter.name}:`, error);
-      }
-      return null;
-    }
-
-    async function fetchNewsletters() {
-      const newslettersEl = document.getElementById("newsletters");
-      if (!newslettersEl) return;
-
-      let html = '';
-
-      // Fetch all newsletters in parallel
-      const newsletterPromises = topNewsletters.map(async (newsletter, index) => {
-        const headline = await fetchNewsletterHeadline(newsletter);
-        const fallback = fallbackNewsletters[index];
-        
-        return {
-          name: newsletter.name,
-          title: headline || fallback.title,
-          url: newsletter.url,
-          description: newsletter.description
-        };
-      });
-
-      const newsletters = await Promise.all(newsletterPromises);
-
-      newsletters.forEach(newsletter => {
-        html += `
-          <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
-            <p style="margin:0;font-weight:600;color:var(--text);font-size:13px">
-              ${escapeHtml(newsletter.name)}
-            </p>
-            <p style="margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.4">
-              ${escapeHtml(newsletter.title)}
-            </p>
-            <a href="${escapeHtml(newsletter.url)}" target="_blank" rel="noopener noreferrer" 
-               style="display:inline-block;margin-top:8px;font-size:11px;color:var(--green);text-decoration:none">
-              Subscribe →
-            </a>
-          </div>
-        `;
-      });
-
-      newslettersEl.innerHTML = html;
-    }
-
-    function initNewsletters() {
-      // Show fallback immediately
-      const newslettersEl = document.getElementById("newsletters");
-      if (newslettersEl) {
-        let html = '';
-        fallbackNewsletters.forEach(newsletter => {
-          html += `
-            <div style="padding:10px;background:rgba(16,28,49,.35);border-radius:12px;border:1px solid var(--line)">
-              <p style="margin:0;font-weight:600;color:var(--text);font-size:13px">
-                ${escapeHtml(newsletter.name)}
-              </p>
-              <p style="margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.4">
-                ${escapeHtml(newsletter.title)}
-              </p>
-              <a href="${escapeHtml(newsletter.url)}" target="_blank" rel="noopener noreferrer" 
-                 style="display:inline-block;margin-top:8px;font-size:11px;color:var(--green);text-decoration:none">
-                Subscribe →
-              </a>
-            </div>
-          `;
-        });
-        newslettersEl.innerHTML = html;
-      }
-
-      // Then try to fetch real headlines
-      setTimeout(() => fetchNewsletters(), 1000);
-      
-      // Update every hour
-      setInterval(fetchNewsletters, 3600000);
-    }
-
     // Initialize ticker immediately with fallback data
     function initTicker() {
       const tickerEl = document.getElementById("stockTicker");
@@ -2401,7 +2256,6 @@
     function initAll() {
       initTicker();
       initHeadline();
-      initNewsletters();
     }
     
     if (document.readyState === 'loading') {
